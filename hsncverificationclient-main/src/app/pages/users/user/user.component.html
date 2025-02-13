@@ -1,0 +1,68 @@
+<nb-card>
+  <nb-card-header>{{mode}} user</nb-card-header>
+  <nb-card-body>
+    <div [formGroup]="userForm" class="container">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input nbInput id="firstName" formControlName="firstName"
+               [status]="(firstName?.hasError('minlength') || firstName?.hasError('maxlength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="First Name" [attr.disabled]="editProfile ? true : null">
+        <ngx-validation-message label="First Name"
+                                [showMinLength]="firstName?.hasError('minlength')"
+                                [showMaxLength]="firstName?.hasError('maxlength')"
+                                [showRequired]="firstName?.errors?.required && firstName.touched" minLength=2
+                                maxLength=20></ngx-validation-message>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input nbInput id="lastName" formControlName="lastName"
+               [status]="(lastName?.hasError('minlength') || lastName?.hasError('maxlength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="Last Name" [attr.disabled]="editProfile ? true : null">
+        <ngx-validation-message label="Last Name"
+                                [showMinLength]="lastName?.hasError('minlength')"
+                                [showMaxLength]="lastName?.hasError('maxlength')" minLength=2
+                                maxLength=20></ngx-validation-message>
+      </div>
+
+      <div class="form-group">
+        <label for="inputLogin">Marksheet Name</label>
+        <input nbInput id="inputLogin" formControlName="marksheetName"
+               [status]="(marksheetName?.errors?.required || marksheetName?.hasError('minlength') || marksheetName?.hasError('maxlength')) && marksheetName.touched ? 'danger' : 'primary'"
+               class="form-control" placeholder="marksheet name">
+      </div>
+
+
+      <div class="form-group">
+        <label for="inputEmail">Email</label>
+        <input nbInput id="inputEmail" formControlName="email"
+               [status]="(email?.errors?.required || email?.hasError('pattern')) && email.touched ? 'danger' : 'primary'"
+               class="form-control"
+               placeholder="Email" [attr.disabled]="editProfile ? true : null">
+        <ngx-validation-message label="Email"
+                                [showPattern]="email?.hasError('pattern') && email.touched"
+                                [showRequired]="email?.errors?.required && email.touched" min=1 max=120></ngx-validation-message>
+      </div>
+
+      <div class="form-group">
+        <label for="inputRole">Role</label>
+        <input nbInput class="form-control" id="inputRole" placeholder="Role" formControlName="role" disabled>
+      </div>
+
+      <div class="form-group" >
+        <label for="inputMobile">Mobile</label>
+        <input nbInput class="form-control" id="inputMobile" placeholder="Mobile number" formControlName="mobile">
+      </div>
+
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="primary" [disabled]="!(userForm.valid && userForm.dirty)"
+    (click)="save()" hero>Submit</button>
+    <button nbButton status="info" (click)="back()" hero>Back</button>
+  </nb-card-footer>
+</nb-card>
+

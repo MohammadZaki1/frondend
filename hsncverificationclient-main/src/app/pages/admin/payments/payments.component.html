@@ -1,0 +1,434 @@
+<nb-card>
+    <nb-card-body>
+      <p-tabView>
+  
+        <!-- <p-tabPanel header="Payment Split">
+          <h3>Note : All Student Split </h3>
+          <p-messages >jhjk</p-messages>
+          <div class="row">
+              <div class="col-lg-6 ">
+                  
+                      <input matInput  type="text" [value]="filterText1"
+                      [placeholder]="filterPlaceholder1" [formControl]="filterInput1" />
+                      <button mat-button *ngIf="filterText1" matSuffix mat-icon-button aria-label="Clear" (click)="filterText1=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                
+                  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+              </div>
+              
+              <div class="col-lg-3 ">
+                <button nbButton outline status="primary">Excel Export</button>
+              </div>
+          </div>
+          <table class="table table-striped w-auto">
+              <thead style="font-size: 13px">
+                  <h5><b>Total Count:</b></h5>
+                  <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Order Id</th>
+                      <th>Reference No</th>
+                      <th>Total Amount</th>
+                      <th>CC</th>
+                      <th>Available Amount</th>
+                      <th>Beta</th>
+                      <th>Alpha</th>
+                      <th>Action</th>
+                      <th>Change Split Payout Status</th>
+                  </tr>
+              </thead>
+              <tbody style="font-size: 12px">
+                  <tr class="info" >
+                      <td>hghg</td>
+                      <td>jhjhjghjg</td>
+                      <td>kjbjhhj</td>
+                      <td>hgjgj</td>
+                      <td >jkhjkhk</td>
+                      <td >jjhjkhkjtd>
+                      <td >hjghjhj</td>
+                      <td >
+                         
+                          <span id="">kjhjkh</span>
+                      </td>
+                      <td >
+                          
+                          <span id="">jhgjg</span>
+                      </td>
+                      <td>
+                          <i class="fa ion-checkmark" id='' nbPopover="Proceed" nbPopoverMode="hover" ></i>
+                      </td> 
+                      <td>
+                        <i class="fa ion-checkmark" nbPopover="Proceed" nbPopoverMode="hover" ></i>
+                    </td> 
+                  </tr>
+              </tbody>				
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </p-tabPanel> -->
+  
+        <p-tabPanel header="Payment Refund">
+          <h3>Note : Payment Refund</h3>
+          <p-messages >jhjk</p-messages>
+          <div class="row">
+             
+              <div class="col-lg-3 ">
+                <button nbButton outline status="primary">Excel Export</button>
+              </div>
+          </div>
+          <table class="table table-striped w-auto">
+              <thead style="font-size: 13px">
+                  <h5><b>Total Count:</b></h5>
+                  <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Order Id</th>
+                      <th>Reference No</th>
+                      <th>Total Amount</th>
+                      <th>CC</th>
+                      <th>Available Amount</th>
+                      <th>Beta</th>
+                      <th>Alpha</th>
+                      <th>Action</th>
+                      <th>Change Split Payout Status</th>
+                  </tr>
+              </thead>
+              <tbody style="font-size: 12px">
+                  <tr class="info" >
+                      <td>hghg</td>
+                      <td>jhjhjghjg</td>
+                      <td>kjbjhhj</td>
+                      <td>hgjgj</td>
+                      <td >jkhjkhk</td>
+                      <td >jjhjkhkjtd>
+                      <td >hjghjhj</td>
+                      <td >
+                  
+                          <span id="">kjhjkh</span>
+                      </td>
+                      <td >
+                         
+                          <span id="">jhgjg</span>
+                      </td>
+                      <td>
+                          <i class="fa ion-checkmark" id='' nbPopover="Proceed" nbPopoverMode="hover" ></i>
+                      </td> 
+                      <td>
+                        <i class="fa ion-checkmark" nbPopover="Proceed" nbPopoverMode="hover" ></i>
+                    </td> 
+                  </tr>
+              </tbody>				
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </p-tabPanel>
+  
+        <!-- <p-tabPanel header="Multiple Transaction">
+          <p-tabView>
+  
+            <p-tabPanel header="Pending">
+              <h3>Note : All Student Payment Issue.</h3>
+              <form [formGroup]="searchForm">
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-md-3">
+                      <label>Date </label><br>
+                      <input nbInput formControlName="pendingdateCtrl" placeholder="Date" [nbDatepicker]="datepicker"
+                        [ngClass]="{'form-control-danger': searchForm.controls.pendingdateCtrl.invalid && (searchForm.controls.pendingdateCtrl.dirty || searchForm.controls.pendingdateCtrl.touched)}">
+                      <nb-datepicker #datepicker [(date)]="date1" [max]="max" format="yyyy-MM-dd"></nb-datepicker>
+                    </div>
+                  </div>
+  
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Email ID</label><br>
+                      <input nbInput formControlName="pendingemailCtrl" placeholder="email"
+                        [ngClass]="{'form-control-danger': searchForm.controls.pendingemailCtrl.invalid && (searchForm.controls.pendingemailCtrl.dirty || searchForm.controls.pendingemailCtrl.touched)}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <br> <button nbButton (click)="search()">Search</button>
+                  </div>
+                </div>
+              </form>
+  
+              <div class="wrapper" *ngIf="Details">
+  
+                <div class="Rtable Rtable--5cols Rtable--collapse">
+                  <div class="Rtable-row Rtable-row--head">
+                    <div class="Rtable-cell date-cell column-heading">Email Id</div>
+                    <div class="Rtable-cell topic-cell column-heading">Transaction Id</div>
+                    <div class="Rtable-cell date-cell column-heading">Order Id</div>
+                    <div class="Rtable-cell date-cell column-heading">Bank Refrence No</div>
+                    <div class="Rtable-cell date-cell column-heading">Date</div>
+                    <div class="Rtable-cell date-cell column-heading">Amount</div>
+                    <div class="Rtable-cell date-cell column-heading">Type Of Payment</div>
+                    <div class="Rtable-cell date-cell column-heading">Note by Student</div>
+                    <div class="Rtable-cell date-cell column-heading">Action</div>
+  
+                  </div>
+  
+                  <div class="Rtable-row is-striped"
+                    *ngFor="let student of Details | paginate: { itemsPerPage: 8, currentPage: p }">
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Email Id</div>
+                      <div class="Rtable-cell--content date-content">{{student?.email}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Transaction Id</div>
+                      <div class="Rtable-cell--content date-content">{{student.transaction_id}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Order Id</div>
+                      <div class="Rtable-cell--content date-content">{{student?.order_id}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Bank Refrence No.</div>
+                      <div class="Rtable-cell--content date-content">{{student?.bank_refno}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Date</div>
+                      <div class="Rtable-cell--content date-content">{{student.date}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Amount</div>
+                      <div class="Rtable-cell--content date-content">{{student.amount}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Type Of Payment</div>
+                      <div class="Rtable-cell--content date-content">{{student.selectissuetype}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Note by Student 
+                      </div>
+                      <div class="Rtable-cell--content date-content">
+                        <img src="https://img.icons8.com/wired/64/null/note.png" 
+                        style="height: 40px; width: 40px;" nbPopover="View More" nbPopoverMode="hover"
+                        (click)="showNotes(student.note)"/>                   
+                      </div>
+                    </div>
+                    <div class="Rtable-cell date-cell"
+                      style="display: flex; justify-content: center; flex-direction: column;">
+  
+                      <div class="Rtable-cell--heading">Action</div>
+                      <button nbButton (click)="verify(student.id,student.email)">Resovled</button>
+                      <img src="https://img.icons8.com/wired/64/null/edit-property.png"
+                        style="height: 40px; width: 40px;" /><br>
+                    </div>
+  
+                  </div>
+                </div>
+      
+              </div>
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </p-tabPanel>
+  
+            <p-tabPanel header="Resovled">
+              <h3>Note : All Student Payment Issue.</h3>
+              <form [formGroup]="searchForm">
+                <div class="row">
+  
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Email ID</label><br>
+                      <input nbInput formControlName="pendingemailCtrl" placeholder="email"
+                        [ngClass]="{'form-control-danger': searchForm.controls.pendingemailCtrl.invalid && (searchForm.controls.pendingemailCtrl.dirty || searchForm.controls.pendingemailCtrl.touched)}">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <br> <button nbButton (click)="search()">Search</button>
+                  </div>
+                </div>
+              </form>
+  
+              <div class="wrapper" *ngIf="DetailRes">
+                <h5><b>Total Student count:</b></h5><br /><br />
+                <div class="Rtable Rtable--5cols Rtable--collapse">
+                  <div class="Rtable-row Rtable-row--head">
+                    <div class="Rtable-cell date-cell column-heading">Email Id</div>
+                    <div class="Rtable-cell date-cell  column-heading">Transaction Id</div>
+                    <div class="Rtable-cell date-cell column-heading">Order Id</div>
+                    <div class="Rtable-cell date-cell column-heading">Bank Refrence No</div>
+                    <div class="Rtable-cell date-cell column-heading">Amount</div>
+                    <div class="Rtable-cell date-cell column-heading">Type Of Payment</div>
+                    <div class="Rtable-cell date-cell column-heading">Resovled Date</div>
+                    <div class="Rtable-cell date-cell column-heading">Admin Notes</div>
+                  </div>
+  
+                  <div class="Rtable-row is-striped" *ngFor="let student of DetailRes | paginate: { itemsPerPage: 8, currentPage: p }">
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Email Id</div>
+                      <div class="Rtable-cell--content date-content">{{student?.email}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Transaction Id</div>
+                      <div class="Rtable-cell--content date-content">{{student?.transaction_id}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Order Id</div>
+                      <div class="Rtable-cell--content date-content">{{student?.order_id}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Bank Refrence No.</div>
+                      <div class="Rtable-cell--content date-content">{{student?.bank_refno}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Amount</div>
+                      <div class="Rtable-cell--content date-content">{{student?.amount}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Type Of Payment</div>
+                      <div class="Rtable-cell--content date-content">{{student?.selectissuetype}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Resovled Date</div>
+                      <div class="Rtable-cell--content date-content">{{student?.updated_at}}</div>
+  
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                      <div class="Rtable-cell--heading">Admin Notes</div>
+                      <div class="Rtable-cell--content date-content"></div>
+                    </div>
+  
+                
+                  </div>
+                </div>
+                <div *ngIf="DetailRes?.totalLength == 0">
+                      <span style="color : red; font-size: 18px;">No Data Available</span>
+                    </div>
+              </div>
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </p-tabPanel>
+  
+          </p-tabView>
+        </p-tabPanel> -->
+  
+        <p-tabPanel header="Total Application">
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h3>Note : All Student Payment </h3>
+            <div>
+              <form [formGroup]="dateForm">
+  
+              <input id="studDOB" name="studDOB" placeholder="Enter Date Range"
+                autocomplete="off" class="col-lg-12 form-control" formControlName="totaldateCtrl"
+                [nbDatepicker]="rangepicker">
+              <nb-rangepicker #rangepicker></nb-rangepicker>
+              </form>
+            </div>
+            <!-- <button nbButton status="success" (click)="downloadExcel('paymenttotal')" [nbSpinner]="isLoadingResults">
+              Download Excel
+            </button> -->
+
+            <button style="float: right;" nbButton status="success" (click)="downloadExcel('paymenttotal')">
+              <div style="font-size: 86%;">
+                Download Excel
+              </div>
+            </button>
+          </div>
+  
+          <form [formGroup]="searchForm">
+            <div class="row">
+  
+              <div class="form-group">
+                <div class="col-md-3">
+                  <label>ApplicationID</label>
+                  <input nbInput formControlName="idCtrl" placeholder="Application Id"
+                    [ngClass]="{'form-control-danger': searchForm.controls.idCtrl.invalid && (searchForm.controls.idCtrl.dirty || searchForm.controls.idCtrl.touched)}">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-3">
+  
+                  <label>Name</label><br>
+                  <input nbInput formControlName="nameCtrl" placeholder="name"
+                    [ngClass]="{'form-control-danger': searchForm.controls.nameCtrl.invalid && (searchForm.controls.nameCtrl.dirty || searchForm.controls.nameCtrl.touched)}">
+                </div>
+              </div>
+  
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Email ID</label><br>
+                  <input nbInput formControlName="emailCtrl" placeholder="email"
+                    [ngClass]="{'form-control-danger': searchForm.controls.emailCtrl.invalid && (searchForm.controls.emailCtrl.dirty || searchForm.controls.emailCtrl.touched)}">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <br> <button nbButton (click)="searchtotal()" >Search</button>
+              </div>
+            </div>
+          </form>
+          <br><br>
+          <div class="row">
+            <div class="col-lg-6 ">
+           
+                <input matInput type="text" [value]="filterText" [placeholder]="filterPlaceholder"
+                  [formControl]="filterInput" />
+                <button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+           
+              <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+          
+          </div>
+  
+          <div class="wrapper" *ngIf="studentdata">
+            <h5><b>Total Paid Students: {{studentLength?.totalLength}} </b></h5><br /><br />
+            <div class="Rtable Rtable--5cols Rtable--collapse">
+              <div class="Rtable-row Rtable-row--head">
+                <div class="Rtable-cell date-cell column-heading">Application ID</div>
+                <div class="Rtable-cell date-cell column-heading">Name</div>
+                <div class="Rtable-cell date-cell column-heading">Email ID</div>
+                <div class="Rtable-cell date-cell column-heading">Application Date</div>
+                <div class="Rtable-cell date-cell column-heading">Order ID</div>
+                <div class="Rtable-cell date-cell column-heading">Tracking ID</div>
+                <div class="Rtable-cell date-cell column-heading">Bank Refrence No.</div>
+                <div class="Rtable-cell date-cell column-heading">Total Amount</div>
+
+  
+              </div>
+  
+              <div class="Rtable-row is-striped" *ngFor="let student of studentdata | filter:{id:filterText,name:filterText,email:filterText} : false | paginate: { itemsPerPage: 8, currentPage: p } ">
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Application ID</div>
+                  <div class="Rtable-cell--content date-content">{{student?.id}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Name</div>
+                  <div class="Rtable-cell--content date-content">{{student?.name}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Email ID</div>
+                  <div class="Rtable-cell--content date-content">{{student?.email}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Application Date</div>
+                  <div class="Rtable-cell--content date-content">{{student?.created_at}}</div>
+                </div>
+  
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Order ID</div>
+                  <div class="Rtable-cell--content date-content">{{student?.order_id}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Tracking ID</div>
+                  <div class="Rtable-cell--content date-content">{{student?.tracking_id}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                  <div class="Rtable-cell--heading">Bank Refrence No.</div>
+                  <div class="Rtable-cell--content date-content">{{student?.bank_ref_no}}</div>
+                </div>  
+                 <div class="Rtable-cell date-cell">
+                <div class="Rtable-cell--heading">Amount</div>
+                <div class="Rtable-cell--content date-content">{{student?.amount}}</div>
+              </div>
+              </div>
+            </div>
+            <div *ngIf="studentLength?.totalLength == 0">
+              <span style="color : red; font-size: 18px;">No Data Available</span>
+            </div>
+          </div>
+          <pagination-controls (pageChange)="q = $event"></pagination-controls>
+        </p-tabPanel>
+      </p-tabView>
+    </nb-card-body>
+  </nb-card>

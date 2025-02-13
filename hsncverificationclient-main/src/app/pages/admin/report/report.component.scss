@@ -1,0 +1,404 @@
+table {
+  width: 100%;
+}
+
+mat-form-field{
+  width: 60%;
+}
+
+$breakpoint: 750px;
+$heading-color: #455f78;
+
+* {
+box-sizing: border-box;
+}
+
+form button{
+height: 40px;
+padding:0 20px;
+border: none;
+background-color: rgb(68, 255, 193);
+color: #ffffff;
+border-radius: 5px;
+}
+
+form .col-xl-2{
+margin: auto 0;
+}
+
+.wrapper {
+width: 100%;
+max-width: 1500px;
+// margin: 1em auto;
+padding: 1em;
+}
+
+.tablessWrap{
+border:1px solid #d3d3d3;
+background: #ffffff;
+}
+.studentStatusCount{
+font-size: 16px;
+margin:5px 0;
+text-align: center;
+}
+.titleWrap02{
+font-size:22px;
+color:#666666;
+margin-bottom:10px;
+border-bottom: 2px solid #c1c1c1;    
+}
+.titleWrap{
+font-size:22px;
+color:#666666;
+margin:10px 0;
+border-bottom: 2px solid #c1c1c1;    
+}
+.example-full-width {
+  width: 70%;
+}
+
+.fa {
+display: inline-block;
+font: normal normal normal 14px/1 FontAwesome;
+font-size: 25px;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+
+i:hover {
+//background-color: red;
+font-family: Arial, Helvetica, sans-serif;
+color: indianred;
+outline-color : aqua;
+}
+
+
+/*--------------  test by suraj  ------------*/
+
+@import url(https://fonts.googleapis.com/css?family=Oswald:400|Raleway:400,700,400italic,700italic);
+
+/*------------------------ GENERAL SETTINGS ------------------------*/
+
+*,
+:before,
+:after {
+box-sizing: border-box;
+}
+
+body {
+background-color: #1d1f20;
+color: #e5e5e5;
+font: 16px/1.25 'Raleway', sans-serif;
+}
+
+main,
+footer {
+display: block;
+margin-left: auto;
+margin-right: auto;
+max-width: 64em;
+width: 100%;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-family: 'Oswald', sans-serif;
+font-weight: 400;
+margin: 0.25em 0;
+text-align: left;
+}
+
+/* Links */
+a {
+color: #a2ed56;
+}
+
+a:hover {
+color: #83e4e2;
+}
+
+
+/*----------------------- TABLE -----------------------*/
+
+table {
+border-collapse: collapse;
+border-spacing: 0;
+max-width: 100%;
+width: 100%;
+}
+
+
+
+/*---------------------- HEADER ----------------------*/
+table thead {
+border-bottom: 2px solid #e5e5e5;
+}
+
+table th,
+table td {
+padding: 1em 0.5em;
+position: relative;
+}
+
+table th {
+font: 400 1.25em/1 'Oswald', sans-serif;
+letter-spacing: 0.025em;
+outline: none;
+padding-right: 2em;
+text-align: left;
+// text-transform: uppercase;
+transition: color 0.2s ease-in-out;
+}
+
+table th:hover,
+table th:focus {
+color: #83e4e2;
+}
+
+/* Arrows */
+table th:after,
+table th:before {
+border: 0.35em solid transparent;
+content: '';
+height: 0; 
+position: absolute;
+right: 0.65em;
+top: 50%;
+transform: translateY(-50%);
+transition: border-color 0.2s ease-in-out;
+width: 0; 
+}
+
+table th:before {
+border-bottom-color: rgba(255, 255, 255, 0.25);
+border-top: 0;
+margin-top: -0.35em;
+}
+
+table th:after {
+border-bottom: 0;
+border-top-color: rgba(255, 255, 255, 0.25);
+margin-top: 0.35em;
+}
+
+table th:hover:before,
+table th:focus:before {
+border-bottom-color: rgba(255, 255, 255, 0.75);
+}
+
+table th:hover:after,
+table th:focus:after {
+border-top-color: rgba(255, 255, 255, 0.75);
+}
+
+table th[aria-sort="ascending"],
+table th[aria-sort="descending"] {
+color: #fddc32;
+}
+
+table th[aria-sort="ascending"]:before {
+border-bottom-color: #a2ed56;
+}
+
+table th[aria-sort="ascending"]:after {
+border-top-color: rgba(255, 255, 255, 0.25);
+}
+
+table th[aria-sort="descending"]:before {
+border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+
+table th[aria-sort="descending"]:after {
+border-top-color: #fd6470;
+}
+
+
+
+/*** BODY ***/
+table tbody > tr {
+border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+table tbody > tr:hover {
+background-color: rgba(255, 255, 255, 0.25);
+border-color: rgba(255, 255, 255, 1);
+}
+
+/* Primary Color */
+table tbody > tr:nth-of-type(6n+1) {
+border-color: rgba(162, 237, 86, 0.5);
+}
+
+table tbody > tr:nth-of-type(6n+1):hover {
+background-color: rgba(162, 237, 86, 0.25);
+border-color: rgba(162, 237, 86, 1);
+}
+
+/* Secondary Color */
+table tbody > tr:nth-of-type(6n+2) {
+border-color: rgba(131, 228, 226, 0.5);
+}
+
+table tbody > tr:nth-of-type(6n+2):hover {
+background-color: rgba(131, 228, 226, 0.25);
+border-color: rgba(131, 228, 226, 1);
+}
+
+/* Tertiary Color */
+table tbody > tr:nth-of-type(6n+3) {
+border-color: rgba(253, 100, 112, 0.5);
+}
+
+table tbody > tr:nth-of-type(6n+3):hover {
+background-color: rgba(253, 100, 112, 0.25);
+border-color: rgba(253, 100, 112, 1);
+}
+
+/* Quaternary Color */
+table tbody > tr:nth-of-type(6n+4) {
+border-color: rgba(252, 168, 88, 0.5);
+}
+
+table tbody > tr:nth-of-type(6n+4):hover {
+background-color: rgba(252, 168, 88, 0.25);
+border-color: rgba(252, 168, 88, 1);
+}
+
+/* Quinary Color */
+table tbody > tr:nth-of-type(6n+5) {
+border-color: rgba(253, 220, 50, 0.5);
+}
+
+table tbody > tr:nth-of-type(6n+5):hover {
+background-color: rgba(253, 220, 50, 0.25);
+border-color: rgba(253, 220, 50, 1);
+}
+
+table tbody > tr:nth-of-type(6n+6) {
+border-color: rgba(131, 228, 226, 0.5);
+}
+
+table tbody > tr:nth-of-type(6n+6):hover {
+background-color: rgba(131, 228, 226, 0.25);
+border-color: rgba(131, 228, 226, 1);
+}
+
+/* Name Cell */
+table td[data-label="Name"] {
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+
+/* Animal Cells */
+table td[data-label="Chickens"],
+table td[data-label="Pigs"],
+table td[data-label="Snakes"] {
+text-align: center;
+}
+
+/* Check and Cross Marks */
+table tr span.yes,
+table tr span.no {
+transition: all 0.2s ease-in-out;
+}
+
+table tr:hover span.yes,
+table tr:hover span.no {
+color: #000000;
+}
+
+table span.yes {
+color: #a2ed56;
+font-size: 1.25em;
+}
+
+table span.no {
+color: #fd6470;
+font-size: 0.875em;
+}
+
+
+
+/*--------------- FOOTER ---------------*/
+footer {
+text-align: center;
+}
+
+footer a {
+display: inline-block;
+}
+
+.custom-btn {
+  background-color: #28a745; /* Change to your desired background color */
+  color: white; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-btn:hover {
+  background-color: #218838; /* Darker shade for hover effect */
+}
+
+
+
+/*------------------------  MEDIA QUERIES  -----------------------*/
+
+@media (max-width: 50em) {
+
+/*---------------- TABLE ----------------*/
+table tr,
+table td {
+  display: block;
+}
+
+table tr {
+  padding: 0.75em 0;
+}
+
+/*------------- Header --------------------*/
+table thead tr {
+  text-align: center;
+}
+
+table th {
+  display: block;
+  padding: 0.25em 0.5em;
+}
+
+/*-------------- Body ------------*/
+table td {
+  padding: 0.25em 0.5em 0.25em 6.5em;
+}
+
+table td:before {
+  content: attr(data-label);
+  font: 400 1.125em/1 'Oswald', sans-serif;
+  left: 0.5em;
+  position: absolute;
+  top: 0.125em;
+  width: 100%;
+}
+
+/*--------------- Animal Cells -------------*/
+table td[data-label="Chickens"],
+table td[data-label="Pigs"],
+table td[data-label="Snakes"] {
+  text-align: left;
+}
+
+/*----------------- Check and Cross Marks -------------*/
+table span.yes {
+  line-height: 0.875;
+}
+}

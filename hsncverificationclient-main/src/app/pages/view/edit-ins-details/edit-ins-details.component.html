@@ -1,0 +1,143 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-6">Edit Details</div>
+      <div class="col-md-6">
+        <button nbButton (click)="dismiss()"><i class="fa fa-window-close" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div>
+      <form [formGroup]="errataForm" class="example-form">
+        <div class="row">
+          <div class="col-xl-4">
+            <label>Institute Reference No</label>
+            <br />
+            <input
+              id="course"
+              type="text"
+              placeholder="Enter Institute Reference No"
+              aria-label="course"
+              matInput
+              formControlName="referenceNo"
+            />
+            <span
+            *ngIf="errataForm.controls.referenceNo.invalid && (errataForm.controls.referenceNo.dirty || errataForm.controls.referenceNo.touched)"><span
+              style="color:red;">ReferenceNo is required</span></span>
+          </div>
+          <div class="col-xl-4">
+            <label>Institute Name</label>
+            <br />
+            <input
+              id="course"
+              type="text"
+              placeholder="Enter Institute Name"
+              aria-label="course"
+              matInput
+              formControlName="name"
+            />
+            <span
+            *ngIf="errataForm.controls.name.invalid && (errataForm.controls.name.dirty || errataForm.controls.name.touched)"><span
+              style="color:red;">Name is required</span></span>
+          </div>
+          <div class="col-xl-4"  >
+            <label>Institute Address</label>
+            <br />
+            <input
+              id="course"
+              type="text"
+              placeholder="Enter Institute Address"
+              aria-label="course"
+              matInput
+              formControlName="address"
+            />
+            <span
+            *ngIf="errataForm.controls.address.invalid && (errataForm.controls.address.dirty || errataForm.controls.address.touched)"><span
+              style="color:red;">Address is required</span></span>
+          </div>
+          <div class="col-xl-4" >
+            <label >Institute Email</label>
+            <br />
+            <input
+              id="course"
+              type="text"
+              placeholder="Enter Institute Email"
+              aria-label="course"
+              matInput
+              formControlName="email"
+            />
+            <span
+            *ngIf="errataForm.controls.email.invalid && (errataForm.controls.email.dirty || errataForm.controls.email.touched)"><span
+              style="color:red;">Email is required</span></span>
+              <br>
+          <span *ngIf="errataForm.controls.email.errors?.pattern" style="color:red">Invalid email format</span>
+          </div>
+        </div>
+      </form>
+      <br />
+      <div>
+        <button nbButton (click)="saveDetails(user.email)" [disabled]="!errataForm.dirty||
+          errataForm.controls.referenceNo.value=='' || errataForm.controls.name.value=='' || 
+          errataForm.controls.address.value=='' || errataForm.controls.email.value==''||errataForm.controls.email.errors?.pattern">Save</button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<!-- <nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-md-6">
+                Edit Details
+            </div>
+            <div class="col-md-6">
+                <button nbButton (click)="dismiss()"></button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div>
+            <form [formGroup]="errataForm" class="example-form">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <label>Institute Reference No</label>
+                        <br />
+                        <input id="course" type="text" placeholder="Enter Institute Reference No" aria-label="course"
+                            matInput formControlName="referenceNo" [value]="editInsDetails.InstituteNo">
+                          
+
+                    </div>
+                    <div class="col-xl-4">
+                        <label>Institute Name</label>
+                        <br />
+                        <input id="course" type="text" placeholder="Enter Institute Name" aria-label="course" matInput
+                            formControlName="name" [value]="editInsDetails.InstituteName">
+                            
+
+                    </div>
+                    <div class="col-xl-4">
+                        <label>Institute Address</label>
+                        <br />
+                        <input id="course" type="text" placeholder="Enter Institute Address" aria-label="course"
+                            matInput formControlName="address" [value]="editInsDetails.InstituteAddress">
+                            
+
+                    </div>
+                    <div class="col-xl-4">
+                        <label>Institute Email</label>
+                        <br />
+                        <input id="course" type="text" placeholder="Enter Institute Email" aria-label="course" matInput
+                            formControlName="email" [value]="editInsDetails.InstituteEmail">
+                         
+
+                    </div>
+                </div>
+            </form>
+            <br />
+            <div>
+                <button nbButton (click)="saveDetails()">Save</button>
+            </div>
+</div>
+        </nb-card-body>
+</nb-card> -->

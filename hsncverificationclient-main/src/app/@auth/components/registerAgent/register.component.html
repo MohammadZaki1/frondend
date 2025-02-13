@@ -1,0 +1,263 @@
+<!--
+  ~ Copyright (c) Akveo 2019. All Rights Reserved.
+  ~ Licensed under the Single Application / Multi Application License.
+  ~ See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
+  -->
+
+<h1 id="title" class="title">Register as Agent</h1>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <p class="alert-title"><b>Oh snap!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <p class="alert-title"><b>Hooray!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+<div [formGroup]="registerForm" aria-labelledby="title">
+  <div class="form-control-group">
+    <label for="input-name">Company Name</label>
+    <input  nbInput
+            autofocus
+            fullWidth
+            fieldSize="large"
+            id="input-name"
+            formControlName="fullname"
+           
+            placeholder="Company Name">
+    <!-- <ngx-validation-message label="Login"
+                            [showMinLength]="login?.hasError('minlength') && login.touched"
+                            [showMaxLength]="login?.hasError('maxlength') && login.touched"
+                            [minLength]="minLoginLength"
+                            [maxLength]="maxLoginLength"
+                            [showRequired]="login?.errors?.required && login.touched">
+    </ngx-validation-message> -->
+    <span *ngIf="registerForm.controls.fullname.invalid && (registerForm.controls.fullname.dirty || registerForm.controls.fullname.touched)"><span style="color:red;">Company Name is required</span></span>
+  </div>
+
+  <div class="form-control-group">
+
+    <div>
+      <label for="inputMobile"> Country Code and Mobile number <span style="color:red;">* </span><i
+          class="fa fa-info-circle"  nbPopoverMode="hover"></i></label>
+    </div>
+  </div>
+  <div class="form-control-group">
+    <div ></div>
+
+    <div>
+      <div class="form-group">
+        <input nbInput type="text" pattern="[0-9]{5,12}" class="form-control" placeholder="Mobile No"
+          fullWidth fieldSize="large" formControlName="mobile"class="countrycode" inputmode="numeric" digitOnly ng2TelInput
+          [ng2TelInputOptions]="{separateDialCode:true}" (countryChange)="onCountryChange($event)"
+          (keypress)="OnlyNoAllowed($event)" [ngClass]="{'form-control-danger': registerForm.controls.mobile.invalid && (registerForm.controls.mobile.dirty ||  registerForm.controls.mobile.touched)}"
+          required>
+          <span *ngIf ="registerForm.controls.mobile.invalid && (registerForm.controls.mobile.dirty || registerForm.controls.mobile.touched)"><span style="color:red;">Mobile number is required</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-email">Company Email address:</label>
+    <input  nbInput (keyup)="onKeyPressNew($event)" nbInput
+            fullWidth
+            fieldSize="large"
+            id="input-email"
+            formControlName="email"
+            [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+            [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+            placeholder="Email address">
+    <!-- <ngx-validation-message label="Email address" [showPattern]="email?.hasError('pattern') && email.touched"
+      [showRequired]="email?.errors?.required && email.touched"></ngx-validation-message> -->
+      <span *ngIf="registerForm.controls.email.invalid && (registerForm.controls.email.dirty || registerForm.controls.email.touched)"><span style="color:red;">Email is required</span></span>
+      <span style="color : red" *ngIf="emailExists == true">Email already exists.</span>
+      <span style="color : red" *ngIf="registerForm.controls.email.value?.endsWith('@gmail.com')">Invalid
+        EmailID</span>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-password">Password:</label>
+    <input  nbInput
+            fullWidth
+            fieldSize="large"
+            id="input-password"
+            formControlName="password"
+            type="password"
+            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+            placeholder="Password">
+    <!-- <ngx-validation-message label="Password" [showMinLength]="password?.hasError('minlength') && password.touched"
+      [showMaxLength]="password?.hasError('maxlength') && password.touched"
+      [showRequired]="password?.errors?.required && password.touched"
+      [minLength]="minLength"
+      [maxLength]="maxLength"></ngx-validation-message> -->
+      <span *ngIf="registerForm.controls.password.invalid && (registerForm.controls.password.dirty || registerForm.controls.password.touched)"><span style="color:red;">Password is required</span></span>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-re-password">Confirm Password:</label>
+    <input  nbInput
+            fullWidth
+            fieldSize="large"
+            id="input-re-password"
+            formControlName="confirmPassword"
+            type="password"
+            [status]="confirmPassword.dirty ? (confirmPassword.invalid || password.value != confirmPassword.value  ? 'danger' : 'success') : ''"
+            placeholder="Password">
+    <!-- <ngx-validation-message label="Confirm Password"
+      [showMinLength]="confirmPassword?.hasError('minlength') && confirmPassword.touched"
+      [showMaxLength]="confirmPassword?.hasError('maxlength') && confirmPassword.touched"
+      [showRequired]="confirmPassword?.errors?.required && confirmPassword.touched"
+      [minLength]="minLength"
+      [maxLength]="maxLength"></ngx-validation-message> -->
+    <p class="caption status-danger" *ngIf="password.value != confirmPassword.value">
+        Password and confirm password does not match!
+    </p>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-name">GST No</label>
+    <input  nbInput
+            autofocus
+            fullWidth
+            fieldSize="large"
+            id="input-name"
+            formControlName="gstno"
+            style="text-transform:uppercase"
+            [status]="gstno.dirty ? (gstno.invalid  ? 'danger' : 'success') : ''"
+            [attr.aria-invalid]="gstno.invalid && gstno.touched ? true : null"
+            placeholder="GST No">
+            <span *ngIf="registerForm.controls.gstno.invalid && (registerForm.controls.gstno.dirty || registerForm.controls.gstno.touched)"><span style="color:red;">Input GST number correctly (example: 06BZAHM6385P6Z2)</span></span>
+    <!-- <ngx-validation-message label="GST No"
+                            [showMinLength]="login?.hasError('minlength') && login.touched"
+                            [showMaxLength]="login?.hasError('maxlength') && login.touched"
+                            [minLength]="minLoginLength"
+                            [maxLength]="maxLoginLength"
+                            [showRequired]="login?.errors?.required && login.touched">
+    </ngx-validation-message> -->
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-name">PAN No.</label>
+    <input  nbInput
+            autofocus
+            fullWidth
+            fieldSize="large"
+            id="input-name"
+            formControlName="panNo"
+            style="text-transform:uppercase"
+            [status]="panNo.dirty ? (panNo.invalid  ? 'danger' : 'success') : ''"
+            [attr.aria-invalid]="panNo.invalid && panNo.touched ? true : null"
+            placeholder="Pan No.">
+            <span *ngIf="registerForm.controls.panNo.invalid && (registerForm.controls.panNo.dirty || registerForm.controls.panNo.touched)"><span style="color:red;">Input pan card number correctly (example: ABCDE3456K)</span></span>
+    <!-- <ngx-validation-message label="Login"
+                            [showMinLength]="login?.hasError('minlength') && login.touched"
+                            [showMaxLength]="login?.hasError('maxlength') && login.touched"
+                            [minLength]="minLoginLength"
+                            [maxLength]="maxLoginLength"
+                            [showRequired]="login?.errors?.required && login.touched">
+    </ngx-validation-message> -->
+  </div>
+
+  <!-- <div class="form-control-group accept-group" *ngIf="getConfigValue('forms.register.terms')">
+    <nb-checkbox formControlName="terms" (checkedChange)="toggle($event)" [required]="getConfigValue('forms.register.terms')">
+      Agree to Terms & Conditions
+    </nb-checkbox>
+  </div> -->
+
+  <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !registerForm.valid || 
+  password.value != confirmPassword.value || emailExists || registerForm.controls.email.value?.endsWith('@gmail.com')"
+  [class.btn-pulse]="submitted" (click)="openTermsPopup()">
+    Proceed
+  </button>
+</div>
+
+<!-- <section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
+  or enter with:
+  <div class="socials">
+    <ng-container *ngFor="let socialLink of socialLinks">
+      <a *ngIf="socialLink.link"
+         [routerLink]="socialLink.link"
+         [attr.target]="socialLink.target"
+         [attr.class]="socialLink.icon"
+         [class.with-icon]="socialLink.icon">
+        <nb-icon *ngIf="socialLink.icon; else title" [icon]="socialLink.icon"></nb-icon>
+        <ng-template #title>{{ socialLink.title }}</ng-template>
+      </a>
+      <a *ngIf="socialLink.url"
+         [attr.href]="socialLink.url"
+         [attr.target]="socialLink.target"
+         [attr.class]="socialLink.icon"
+         [class.with-icon]="socialLink.icon">
+        <nb-icon *ngIf="socialLink.icon; else title" [icon]="socialLink.icon"></nb-icon>
+        <ng-template #title>{{ socialLink.title }}</ng-template>
+      </a>
+    </ng-container>
+  </div>
+</section> -->
+
+<section class="another-action" aria-label="Sign in">
+  Already have an account? <a class="text-link" routerLink="../login">Log in</a>
+</section>
+
+<p-dialog [(visible)]="displayNo" [modal]="true" [responsive]="true" [style]="{width: '900px', minWidth: '500px'}"
+  [minY]="70" [baseZIndex]="10000">
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-11">
+      <nb-checkbox [checked]="checked1" (checkedChange)="toggle1('condition1',$event)"> I am aware that the HSNC University/colleges that I am considering for application may communicate with me by mail, email, phone or text message/Whatsapp for my application.</nb-checkbox>
+
+
+
+    </div>
+</div><br>
+<div class="row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-11">
+      <nb-checkbox  [checked]="checked2"  (checkedChange)="toggle1('condition2',$event)">
+        By checking this box, I represent that (i) I am age 13 or older and (ii) I have read, understood and agreed to the terms and conditions of the Terms of Use and Privacy Policy (unless I am over the age of 13 but under the age of 18, in which case, my parent or legal guardian has also read, understood and agreed to the terms and conditions of the Privacy Policy and Terms of Use sections).
+
+      </nb-checkbox>
+  </div>
+</div><br>
+<div class="row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-11">
+      <nb-checkbox    [checked]="checked3" (checkedChange)="toggle1('condition3',$event)">
+        I accept that (I) Fees paid is not refundable And (II) All the information filled by me is true.
+
+      </nb-checkbox>
+</div>
+</div><br>
+<div class="row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-11">
+      <nb-checkbox   [checked]="checked4"  (checkedChange)="toggle1('condition4',$event)">
+        HSNC University website uses small files stored on your computer, known as cookies, that help us remember your settings and ensure the website works properly. By continuing, I am agreeing to The HSNC University use of cookies.
+      </nb-checkbox>
+  </div>
+</div><br>
+
+<!-- <button nbButton nbSpinnerStatus="danger" nbSpinnerSize="xlarge"  status="success"(click)="dismiss()" class="col-lg-4">Accept</button> -->
+<button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !registerForm.valid || password.value != confirmPassword.value || !checked3 || !checked4"
+[class.btn-pulse]="submitted" (click)="register()">
+Register
+</button>
+ </p-dialog> 
+
+<p-dialog [(visible)]="emailverify" [modal]="true" [responsive]="true" [style]="{width: '500px;', minWidth: '500px'}"
+  [minY]="70" [baseZIndex]="10000">
+<h3>Kindly Change your Email Address</h3>
+
+</p-dialog>
+<p-dialog [(visible)]="registered" [modal]="true" [responsive]="true" [style]="{width: '500px;', minWidth: '500px'}"
+  [minY]="70" [baseZIndex]="10000">
+<h3>Check your email inbox/spam for email verification and Activate the Account</h3>
+
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -1,0 +1,38 @@
+<!-- 
+
+            <nb-card>
+                <nb-card-header>
+                    <h5>View Application</h5>
+                </nb-card-header>
+                <nb-card-body>
+                 <pdf-viewer
+src={{src}}
+[rotation]="0"
+  [fit-to-page]="true"
+  [original-size]="true"
+  [show-all]="true"
+  style="display: block;"
+></pdf-viewer>
+                </nb-card-body>
+            </nb-card> -->
+            <nb-card>
+              <nb-card-header>View Data</nb-card-header>
+              <nb-card-body>
+               <div *ngIf="viewFlag" >
+                PDF <a href={{pdfFilePath}}> View </a>
+                <!-- <pdf-viewer
+                [src]="pdfFilePath" 
+                [rotation]="0"
+                  [fit-to-page]="true"
+                  [original-size]="true"
+                  [show-all]="true"
+                  style="display: block; width: 100%;"
+                ></pdf-viewer> -->
+                <pdf-viewer [src]="pdfFilePath" ></pdf-viewer> 
+               </div>
+              </nb-card-body>
+              <nb-card-footer> <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="download()">Download</button>
+                <button type="button" class="btn btn-danger pull-right" (click)="view()">View</button>
+            </div></nb-card-footer>
+            </nb-card>

@@ -1,0 +1,45 @@
+<nb-card>
+    <nb-card-header>Applications</nb-card-header>
+    <nb-card-body>
+        <div class="wrapper">
+            <div class="Rtable Rtable--5cols Rtable--collapse">
+                <div class="Rtable-row Rtable-row--head">
+                    <div class="Rtable-cell topic-cell column-heading">Application Id</div>
+                    <div class="Rtable-cell date-cell column-heading">Tracker</div>
+                    <div class="Rtable-cell date-cell column-heading">Status</div>
+                    <div class="Rtable-cell date-cell column-heading">Errata</div>                 
+                </div>
+                <div class="Rtable-row is-striped" *ngFor="let app of applications ">
+                    <div class="Rtable-cell topic-cell">
+                        <div class="Rtable-cell--heading">Application Id</div>
+                        <div class="Rtable-cell--content title-content">{{app?.id}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                        <div class="Rtable-cell--heading">Tracker</div>
+                        <div class="Rtable-cell--content date-content">{{app?.tracker}}</div>
+                    </div>
+                  <div class="Rtable-cell date-cell">
+                        <div class="Rtable-cell--heading">Status</div>
+                        <div class="Rtable-cell--content date-content">{{app?.status}}</div>
+                    </div>
+                    <div class="Rtable-cell date-cell">
+                        <div class="Rtable-cell--heading">Errata</div>
+                        <div class="Rtable-cell--content date-content" *ngIf="app.requestedData.length > 0">
+                            <div *ngFor="let data of app?.requestedData">
+                                <div>
+                                    <a (click)="updateErrata(data.id, data.lock_transcript, data.upload_step)">{{data.type}} {{data.courseName}} {{data.semester}}</a>
+                                </div><br/>
+                            </div>
+                        </div>
+                        <div class="Rtable-cell--content date-content" *ngIf="app.requestedData.length == 0">
+                            -
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="applications?.length == 0">
+                <span style="color : red; font-size: 18px;">No Data Available</span>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

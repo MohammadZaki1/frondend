@@ -1,0 +1,182 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    ngx-traffic {
+      display: none;
+    }
+  }
+}
+
+
+#qlwapp_n.qlwapp-middle-left_n, #qlwapp_n.qlwapp-middle-right_n {
+  top: 10%;
+  bottom: auto;
+}
+
+#qlwapp_n.qlwapp-middle-right_n, #qlwapp_n.qlwapp-bottom-right_n {
+  left: auto;
+  right: 0;
+}
+
+#qlwapp_n.qlwapp-middle-left_n, #qlwapp_n.qlwapp-bottom-left_n, #qlwapp_n.qlwapp-middle-right_n, #qlwapp_n.qlwapp-bottom-right_n {
+  position: fixed;
+  z-index: 9999999;
+}
+
+#qlwapp_n.qlwapp-js-ready_n {
+  display: block;
+}
+
+@media (min-width: 430px){
+  #qlwapp_n {
+    width: 100px;
+  }
+}
+
+
+#qlwapp_n {
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+#qlwapp_n .qlwapp-container_n {
+  //display: flex;
+  flex-direction: column;
+}
+
+#qlwapp_n * {
+  box-sizing: border-box;
+}
+
+#qlwapp_n.qlwapp-rounded_n.qlwapp-button_n .qlwapp-toggle_n {
+  border-radius: 50px;
+}
+
+#qlwapp_n.qlwapp-middle-right_n.qlwapp-button_n .qlwapp-developer_n, #qlwapp_n.qlwapp-middle-right_n.qlwapp-button_n .qlwapp-toggle_n {
+  margin-right: -48px;
+  padding-right: 60px;
+}
+
+#qlwapp_n.qlwapp-button_n .qlwapp-toggle_n {
+  height: 40px;
+  white-space: nowrap;
+  padding: 16px 11px;
+}
+
+#qlwapp_n .qlwapp-toggle_n {
+  pointer-events: all;
+  cursor: pointer;
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,0.06), 0 2px 32px 0 rgba(0,0,0,0.16);
+  margin-top: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  text-decoration: none;
+}
+
+
+//NEW POPUP END _N
+
+
+//NEW POPUP START
+
+#qlwapp.qlwapp-middle-left, #qlwapp.qlwapp-middle-right {
+  top: 30%;
+  bottom: auto;
+}
+
+#qlwapp.qlwapp-middle-right, #qlwapp.qlwapp-bottom-right {
+  left: auto;
+  right: 0;
+}
+
+#qlwapp.qlwapp-middle-left, #qlwapp.qlwapp-bottom-left, #qlwapp.qlwapp-middle-right, #qlwapp.qlwapp-bottom-right {
+  position: fixed;
+  z-index: 9999999;
+}
+
+#qlwapp.qlwapp-js-ready {
+  display: block;
+}
+
+@media (min-width: 430px){
+  #qlwapp {
+    width: 100px;
+  }
+}
+
+
+#qlwapp {
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+#qlwapp .qlwapp-container {
+  //display: flex;
+  flex-direction: column;
+}
+
+#qlwapp * {
+  box-sizing: border-box;
+}
+
+#qlwapp.qlwapp-rounded.qlwapp-button .qlwapp-toggle {
+  border-radius: 50px;
+}
+
+#qlwapp.qlwapp-middle-right.qlwapp-button .qlwapp-developer, #qlwapp.qlwapp-middle-right.qlwapp-button .qlwapp-toggle {
+  margin-right: -48px;
+  padding-right: 60px;
+}
+
+#qlwapp.qlwapp-button .qlwapp-toggle {
+  height: 40px;
+  white-space: nowrap;
+  padding: 16px 11px;
+}
+
+#qlwapp .qlwapp-toggle {
+  pointer-events: all;
+  cursor: pointer;
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,0.06), 0 2px 32px 0 rgba(0,0,0,0.16);
+  margin-top: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  text-decoration: none;
+}
+
+
+.convoimages{
+  align-items: center;
+  height: 25%;
+  width: 55%;
+  display: block; margin-left: auto; margin-right: auto;
+}
+
+
+
+@media (min-width: 500px){
+  .convoimages{
+    height: 108%;
+    width: 125% !important;
+  }
+
+ 
+}
+
+.faqss{
+  padding-left: 50%;
+}
+
+@media (min-width: 500px){
+  .faqss{
+    padding-left: 0%;
+  }
+}

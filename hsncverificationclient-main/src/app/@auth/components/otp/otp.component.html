@@ -1,0 +1,24 @@
+<nb-card>
+    <nb-card-header id="header">Verify Otp Here </nb-card-header>
+    <nb-card-body>
+    <div class="row">
+        <input pattern="[0-9]+" id="enterOtp" style="visibility: visible;" nbInput type="number" (keyup.enter)="verify()"  placeholder="Enter OTP Here"  class="form-control" autocomplete="shipping postal-code" required>
+            <span *ngIf="otpValidation" style="color:red;">Please enter OTP</span> 
+            
+    </div>         
+    <!-- <div *ngIf="alert == 200">
+    <h2>Otp Verified Successfully.</h2>	  
+    </div>
+    <div *ngIf="alert == 400">
+        <h3 style="color:red;">Please Enter Valid OTP.</h3>
+    </div>   -->
+    </nb-card-body>
+    <nb-card-footer> 
+    <div class="row">
+        <div class="col-lg-3"><button nbButton hero status="primary" id="verify" style="visibility: visible;" (click)="verify()" >Verify</button></div>
+        <div class="col-lg-3"><button nbButton hero status="primary" id="verify" style="visibility: visible;" (click)="cancel()" >Cancel</button></div>
+        <div class="col-lg-3"><button nbButton hero status="primary" id="verify" style="visibility: visible;" (click)="resendOtp()" >Resend Otp</button></div>
+    </div>
+    </nb-card-footer>
+</nb-card>
+    

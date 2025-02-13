@@ -1,0 +1,4 @@
+node_modules
+src/environments
+dist
+.DS_Store
