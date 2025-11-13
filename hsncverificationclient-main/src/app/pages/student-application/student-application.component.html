@@ -1,0 +1,1324 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card status="basic" [nbSpinner]="loader" nbSpinnerStatus="danger" nbSpinnerSize="giant">
+      <nb-card-header>Complete all steps to complete your process !!!</nb-card-header>
+      <nb-card-body>
+        <div class="container-fluid">
+          <nb-stepper orientation="horizontal" (click)="checkTabs(stepper.selectedIndex)" #stepper>
+            <nb-step [completed]="tabcheck1" label="Verification Type">
+              <nb-card class="nbCard_step1">
+                <nb-card-header class="fontmedia">Select Verification Types
+                  <h6>(<span style="color:red;">Multiple selection allowed</span>)</h6>
+                </nb-card-header>
+                <nb-card-body class="from">
+                  <div style="text-align: left; ">
+                    <h5>Instructions</h5>
+                    <ul>
+                      <li style="color: red;"><b> Select the option for which you want to apply for verification</b>
+                      </li>
+                      <li style="color: red;"><b> You can select multiple options also</b></li>
+                      <li style="color: red;"><b> Input the number of marksheets once you select the type of
+                          verification </b></li>
+                      <!-- <li style="color: red;"><b> Input the number of degrees you want to verify (Only if the applicant
+                          clicks on transcript)</b></li> -->
+                      <li style="color: red;"><b> Input the number of degrees you want to verify (Only if the applicant
+                          clicks on degree)</b></li>
+                    </ul>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-9">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <mat-checkbox (change)="selectVerificationType($event,'marksheet')" status="primary"
+                            [checked]="verificationTypes?.marksheet">
+                            Marksheets
+                          </mat-checkbox>
+                        </div>
+                        <div class="col-md-3" [hidden]="!(marksheetInput)">
+                          <label for="marksheetInput">Number of marksheets</label>
+                          <input  type="number" id="marksheetInput" [ngModel]="verificationTypes?.noOfMarksheet"
+                            placeholder="Number of marksheet" (input)="documentCount($event,'marksheet')" />
+                        </div>
+                      </div>
+                      <br />
+                      <!-- <div class="row">
+                        <div class="col-md-3">
+                          <mat-checkbox (change)="selectVerificationType($event,'transcript')" status="primary"
+                            [checked]="verificationTypes?.transcript">
+                            Transcript
+                          </mat-checkbox>
+                        </div>
+                        <div class="col-md-3" [hidden]="!(transcriptInput)">
+                          <label for="transcriptInput">Number of Transcript</label>
+                          <input  type="number" id="transcriptInput" [ngModel]="verificationTypes?.noOfTranscript"
+                            placeholder="Number of degree" (input)="documentCount($event,'transcript')" />
+                        </div>
+                      </div>
+                      <br /> -->
+                      <div class="row">
+                        <div class="col-md-3">
+                          <mat-checkbox (change)="selectVerificationType($event,'degree')" status="primary"
+                            [checked]="verificationTypes?.degreeCertificate">
+                            Degree Certificate
+                          </mat-checkbox>
+                        </div>
+                        <div class="col-md-3" [hidden]="!(degreeInput)">
+                          <label for="degreeInput">Number of degree</label>
+                          <input  type="number" id="degreeInput" [ngModel]="verificationTypes?.noOfDegree" placeholder="Number of degree"
+                            (input)="documentCount($event,'degree')" />
+                        </div>
+                      </div>
+                      <br />
+                      <span *ngIf="showError == true" style="color : red; font-weight:bold;">{{errorMessage}}</span>
+                    </div>
+                    <div class="col-xl-3">
+                      
+                      <p style="font-size: 150%"><b>Need Help?</b></p><br>
+                      <img class="videoimg"  src="{{uploadUrl}}/api/images/PLAY.png" data-toggle="modal" data-width="640" data-height="360" data-target="#myModal" data-video-fullscreen=""  (click)="videoPopup(1)">
+                      <br/>
+                      <a href="{{uploadUrl}}/api/images/GU-VerificationManual.pdf" target="_blank"><img src="{{uploadUrl}}/api/images/downloadPDF.png" width="150px;" height="100px;"></a>
+                      <br/>
+                      <h5>Email Us on <a style="color:#40dc7e">{{helpEmailId}}</a></h5>
+                    </div>
+                  </div>
+                </nb-card-body>
+                <nb-card-footer>
+                  <button (click)="nextStep();" nbButton>next</button>
+                </nb-card-footer>
+              </nb-card>
+            </nb-step>
+
+            <nb-step [completed]="tabcheck2" label="Document Details & Upload Documents">
+              <div class="nbCard_step2">
+                <div class="fontmedia">
+                  <h2>Add Document details and Upload Documents</h2>
+                </div>
+                <div style="text-align: left; ">
+                  <h5>Instructions</h5>
+                  <ul>
+                    <li style="color: red;"><b> Fields marked with * are mandatory</b></li>
+                    <li style="color: red;"><b> Add the educational details for which you want to apply for
+                        verification</b></li>
+                    <li style="color: red;"><b> Input data of course which is affiliated to HSNC University only</b>
+                    </li>
+                    <li style="color: red;"><b> Select the course from the drop-down. If your course is not listed, then
+                        contact the support staff</b></li>
+                    <li style="color: red;"><b> Save the educational details before uploading the document</b></li>
+                    <li style="color: red;"><b> Upload the documents in jpg/jpeg/png or pdf format only.</b></li>
+                    <li style="color: red;"><b> Maximum file size should be 5 MB.</b></li>
+                    <li style="color: red;"><b> Upload documents one by one. Do not merge any document</b></li>
+                    <li style="color: red;"><b> All documents have to be uploaded in original. In case of Photocopy/
+                        Xerox copies being uploaded, Attestation is mandatory.</b></li>
+                  </ul>
+                </div>
+                <div class="row">
+                  <div class="col-xl-9">
+                    <div class="tabset">
+                      <div class="tabsets" (click)="Marksheets()" *ngIf="verificationTypes?.marksheet == true">
+                        <h3 [ngClass]="{'tabsets1':marksheetss ,'tabsets':!marksheetss}">
+                          Marksheets
+                        </h3>
+                      </div>
+                      <!-- <div class="tabsets" (click)="Transcripts()" *ngIf="verificationTypes?.transcript == true">
+                        <h3 [ngClass]="{'tabsets1':transcriptss ,'tabsets':!transcriptss}">
+                          Transcripts
+                        </h3>
+                      </div> -->
+                      <div class="tabsets" (click)="Degree()" *ngIf="verificationTypes?.degreeCertificate == true">
+                        <h3 [ngClass]="{'tabsets1':degree ,'tabsets':!degree}">
+                          Degree Certificate
+                        </h3>
+                      </div>
+                    </div>
+    
+                    <form [formGroup]="marksheets" *ngIf="marksheetss==true">
+                      <div class="form-group" formArrayName="marksheet"
+                        *ngFor="let marksheet of marksheets.get('marksheet')['controls']; let i = index;">
+                        <div class="tab1" [formGroupName]="i">
+                          <h6>
+                            Enter Marksheet {{i + 1}} Details
+                          </h6>
+    
+                          <div class="from">
+                            <div class="row">
+                              <div class="col-xl-4">
+                                <label>Course<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input id="marksheetCourse" type="text" placeholder="Select Course" aria-label="course"
+                                  formControlName="courseName" [matAutocomplete]="marksheetAuto">
+                                <mat-autocomplete [displayWith]="displayFn" #marksheetAuto="matAutocomplete">
+                                  <mat-option *ngFor="let option of filteredOptions1[i] | async" [value]="option.name"
+                                    (click)="setToOtherFields('marksheet',option.name,i,'course')">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <div *ngIf="(marksheet.get('courseName').errors && (marksheet.get('courseName').dirty || marksheet.get('courseName').touched))" >
+                                  <div *ngIf="marksheet.get('courseName').errors.required"><span style="color:red; font-weight:bold;">Course should be required.</span></div>
+                                </div> 
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Course Type<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select  formControlName="courseType" placeholder="select Course Type"  class="custom-select">
+                                  <mat-option *ngFor="let option of courseTypes" [value]="option.type"
+                                    (click)="setToOtherFields('marksheet',option.type,i,'courseType')">
+                                    {{option.type}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(marksheet.get('courseType').errors && (marksheet.get('courseType').dirty || marksheet.get('courseType').touched))" >
+                                  <div *ngIf="marksheet.get('courseType').errors.required"><span style="color:red; font-weight:bold;">Course Type should be required.</span></div>
+                                </div> 
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Examination pattern<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select formControlName="pattern" placeholder="select Examination pattern"
+                                  (selectionChange)="getCourseDetails(marksheets.controls['marksheet'].controls[i].controls.courseName.value,$event)" class="custom-select">
+                                  <mat-option *ngFor="let option of patterns" [value]="option.name">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(marksheet.get('pattern').errors && (marksheet.get('pattern').dirty || marksheet.get('pattern').touched))" >
+                                  <div *ngIf="marksheet.get('pattern').errors.required"><span style="color:red; font-weight:bold;">Examination pattern is required.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <label
+                                  *ngIf="marksheets.controls['marksheet'].controls[i].controls.pattern.value == null">Year/Semesters</label>
+                                <label
+                                  *ngIf="marksheets.controls['marksheet'].controls[i].controls.pattern.value == 'Annual'">Annual</label>
+                                <label
+                                  *ngIf="marksheets.controls['marksheet'].controls[i].controls.pattern.value == 'Semester'">Semester</label><span style="color:red; font-weight:bold">*</span>
+    
+                                <br />
+                                <input id="semester" type="text" [placeholder]=patternType aria-label="course"
+                                  formControlName="semester" [matAutocomplete]="semester">
+                                <mat-autocomplete [displayWith]="displayFn1" #semester="matAutocomplete">
+                                  <mat-option *ngFor="let option of courseDetails" [value]="option.term_name"
+                                    (click)="setToOtherFields('marksheet',option.term_name,i,'sem_year')">
+                                    {{option.term_name}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <div *ngIf="(marksheet.get('semester').errors && (marksheet.get('semester').dirty || marksheet.get('semester').touched))" >
+                                  <div *ngIf="marksheet.get('semester').errors.required"><span style="color:red; font-weight:bold;">{{marksheets.controls['marksheet'].controls[i].controls.pattern.value }} is required.</span></div>
+                                </div> 
+                              </div>
+                              <div class="col-md-4">
+                                <label>Seat No.<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input formControlName="seatNo" placeholder="Seat Number" maxlength="10" 
+                                onkeypress="return event.charCode >=48 && event.charCode <=57 || 
+                                (event.charCode > 64 && event.charCode < 91) || 
+                                (event.charCode > 96 && event.charCode < 123) && (event.charCode!==32)"
+                                  (focus)="setToOtherFields('marksheet',marksheets.controls['marksheet'].controls[i].controls.semester.value,i,'sem_year')" />
+                                  <div *ngIf="(marksheet.get('seatNo').errors && (marksheet.get('seatNo').dirty || marksheet.get('seatNo').touched))" >
+                                    <div *ngIf="marksheet.get('seatNo').errors.required"><span style="color:red; font-weight:bold;">seat Number is required.</span></div>
+                                    <div *ngIf="marksheet.get('seatNo').errors.maxlength">
+                                      <span style="color:red; font-weight:bold;">Seat Number must be up to 10 digits long.</span>
+                                  </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                <label>SGPI/CGPA<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input formControlName="sgpi" placeholder="Enter SGPI/CGPA"
+                                (focus)="setToOtherFields('marksheet',marksheets.controls['marksheet'].controls[i].controls.semester.value,i,'sem_year')" />
+                                <div *ngIf="(marksheet.get('sgpi').errors && (marksheet.get('sgpi').dirty || marksheet.get('sgpi').touched))" >
+                                  <div *ngIf="marksheet.get('sgpi').errors.required"><span style="color:red; font-weight:bold;">SGPI/CGPA Number is required.</span></div>
+                                  <div *ngIf="marksheet.get('sgpi').errors.numeric"><span style="color:red; font-weight:bold;">SGPI/CGPA must be numeric.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Passing Month-Year<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput [matDatepicker]="dp" [max]="today" formControlName="passingMonthYear"
+                                  (focus)="dp.open()"
+                                  (focus)="setToOtherFields('marksheet',marksheets.controls['marksheet'].controls[i].controls.semester.value,i,'sem_year')"
+                                  readonly />
+                                <mat-datepicker #dp startView="multi-year"
+                                  (monthSelected)="chosenMonthHandler($event,dp,'marksheet',i,'')"
+                                  panelClass="example-month-picker">
+                                </mat-datepicker>
+                              </div>
+
+                              <div class="col-xl-4">
+                                <label>Result Class<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select formControlName="result" placeholder="select result class" class="custom-select">
+                                  <mat-option *ngFor="let option of resultClasses" [value]="option.name">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(marksheet.get('result').errors && (marksheet.get('result').dirty || marksheet.get('result').touched))" >
+                                  <div *ngIf="marksheet.get('result').errors.required"><span style="color:red; font-weight:bold;">Result class is required.</span></div>
+                                </div>
+                              </div>
+
+                              <div class="col-xl-4">
+                                <label>Grade<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select formControlName="grade" placeholder="select grade" class="custom-select">
+                                  <mat-option *ngFor="let option of grades" [value]="option.name">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(marksheet.get('grade').errors && (marksheet.get('grade').dirty || marksheet.get('grade').touched))" >
+                                  <div *ngIf="marksheet.get('grade').errors.required"><span style="color:red; font-weight:bold;">Grade is required.</span></div>
+                                </div>
+                              </div>
+
+                              
+                            </div>
+                          </div>
+                          <div class="row" style="font-size: 16px; color: red; font-style: italic;">
+                            <b>(NOTE : Click on save button to save educational details<br> Upload document option enable
+                              after saving education details)</b>
+    
+                            <span class="text-danger pl-1">*</span>
+                          </div>&nbsp;
+                          <div class="row SUbtn">
+                            <div class="col-md-2">
+                              <button (click)="saveDocumentsDetails('marksheet',i)">Save</button>
+                            </div>
+                            <div class="col-md-2">
+                              <button nbButton hero status="danger" (click)="deleteDetails(marksheets.controls['marksheet'].controls[i].controls.id.value,'edu_details')">Delete</button></div>
+                            <div class="col-md-6" style="display: block;">
+                              <p-fileUpload chooseLabel="Upload"
+                                *ngIf="marksheets.controls['marksheet'].controls[i].controls.fileName.value == null || marksheets.controls['marksheet'].controls[i].controls.fileName.value == undefined"
+                                [disabled]="marksheets.controls['marksheet'].controls[i].controls.id.value == null"
+                                name="file" mode="basic" auto="true" [accept]="'.pdf,.jpg,.png'"
+                                url="{{uploadUrl}}/student/uploadDocument?doc_id={{marksheets.controls['marksheet'].controls[i].controls.id.value}}"
+                                maxFileSize="5000000" (onBeforeSend)="onBeforeSend($event,i)" chooseLabel="Upload {{marksheets.controls['marksheet'].controls[i].controls.semester.value}} Marksheet"
+                                (onUpload)="onUpload($event, 'marksheet',i)" (onSelect)="onSelect($event,i)"> 
+                                
+                              </p-fileUpload>
+    
+                              <nb-actions size="medium" fullWidth
+                                *ngIf="marksheets.controls['marksheet'].controls[i].controls.fileName.value">
+                                <nb-action style="color:rgb(30, 35, 107);font-size: 1.5rem;" class="control-item"
+                                  class="ion ion-ios-eye" title="View File"
+                                  (click)="imagePopup(marksheets.controls['marksheet'].controls[i].controls.fileName.value); ">
+                                </nb-action>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <nb-action style="color:rgb(206, 6, 6);font-size: 1.5rem;" class="control-item"
+                                  class="ion ion-ios-trash" title="Delete File"
+                                  (click)="deleteDocument(marksheets.controls['marksheet'].controls[i].controls.id.value)">
+                                </nb-action>
+                              </nb-actions>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+    
+                    <!-- <form [formGroup]="transcripts" *ngIf="transcriptss==true">
+                      <div class="form-group" formArrayName="transcript"
+                        *ngFor="let transcript of transcripts.get('transcript')['controls']; let i = index;">
+                        <div class="tab2" [formGroupName]="i">
+                          <h6>
+                            Enter Transcript {{i + 1}} Details
+                          </h6>
+                          <div class="from">
+                            <div class="row">
+                              <div class="col-xl-4">
+                                <label>Course<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input id="transcriptCourse" type="text" placeholder="Select Course" aria-label="course"
+                                  matInput formControlName="courseName" [matAutocomplete]="transcriptAuto">
+                                <mat-autocomplete [displayWith]="displayFn" #transcriptAuto="matAutocomplete">
+                                  <mat-option *ngFor="let option of filteredOptions2[i] | async" [value]="option.name"
+                                    (click)="setToOtherFields('transcript',option.name,i,'course')">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <div *ngIf="(transcript.get('courseName').errors && (transcript.get('courseName').dirty || transcript.get('courseName').touched))" >
+                                  <div *ngIf="transcript.get('courseName').errors.required"><span style="color:red; font-weight:bold;">Course should be required.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <label>Seat No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput formControlName="seatNo" maxlength="10"  onkeypress="return event.charCode >=48 && event.charCode <=57 || 
+                                (event.charCode > 64 && event.charCode < 91) || 
+                                (event.charCode > 96 && event.charCode < 123) && (event.charCode!==32)"
+                                  (focus)="setToOtherFields('transcript',transcripts.controls['transcript'].controls[i].controls.courseName.value,i,'course')" />
+                                <div *ngIf="(transcript.get('seatNo').errors && (transcript.get('seatNo').dirty || transcript.get('seatNo').touched))" >
+                                  <div *ngIf="transcript.get('seatNo').errors.required"><span style="color:red; font-weight:bold;">Seat Number is required.</span></div>
+                                  <div *ngIf="transcript.get('seatNo').errors.maxlength">
+                                    <span style="color:red; font-weight:bold;">Seat Number must be up to 10 digits long.</span>
+                                </div>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <label>Transcript No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput formControlName="transcriptNo"  onkeypress="return event.charCode >=48 && event.charCode <=57 || 
+                                (event.charCode > 64 && event.charCode < 91) || 
+                                (event.charCode > 96 && event.charCode < 123) && (event.charCode!==32)" >
+                                <div *ngIf="(transcript.get('transcriptNo').errors && (transcript.get('transcriptNo').dirty || transcript.get('transcriptNo').touched))" >
+                                  <div *ngIf="transcript.get('transcriptNo').errors.required"><span style="color:red; font-weight:bold;">Transcript No is required.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Passing Month-Year<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput [matDatepicker]="dp" [max]="today" formControlName="passingMonthYear"
+                                  (focus)="dp.open()" readonly
+                                  (focus)="setToOtherFields('transcript',transcripts.controls['transcript'].controls[i].controls.courseName.value,i,'course')" />
+                                <mat-datepicker #dp startView="multi-year"
+                                  (monthSelected)="chosenMonthHandler($event,dp,'transcript',i,'')"
+                                  panelClass="example-month-picker">
+                                </mat-datepicker>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row" style="font-size: 16px; color: red; font-style: italic;">
+                            <b>(NOTE : Click on save button to save educational details<br> Upload document option enable
+                              after saving education details)</b>
+    
+                            <span class="text-danger pl-1">*</span>
+                          </div>&nbsp;
+                          <div class="row SUbtn">
+                            <div class="col-md-2">
+                              <button (click)="saveDocumentsDetails('transcript',i)">Save</button>
+                            </div>
+                            <div class="col-md-2">
+                              <button nbButton hero status="danger" (click)="deleteDetails(transcripts.controls['transcript'].controls[i].controls.id.value,'edu_details')">Delete</button></div>
+                            <div class="col-md-2" style="display: block;">
+                              <p-fileUpload chooseLabel="Upload"
+                                *ngIf="transcripts.controls['transcript'].controls[i].controls.fileName.value == null || transcripts.controls['transcript'].controls[i].controls.fileName.value == undefined"
+                                [disabled]="transcripts.controls['transcript'].controls[i].controls.id.value == null"
+                                name="file" mode="basic" auto="true" [accept]="'.pdf,.jpg,.png'"
+                                url="{{uploadUrl}}/student/uploadDocument?doc_id={{transcripts.controls['transcript'].controls[i].controls.id.value}}"
+                                maxFileSize="5000000" (onBeforeSend)="onBeforeSend($event)" (onUpload)="onUpload($event)"
+                                (onSelect)="onSelect($event)">
+                              </p-fileUpload>
+    
+                              <nb-actions size="medium" fullWidth
+                                *ngIf="transcripts.controls['transcript'].controls[i].controls.fileName.value != null">
+                                <nb-action style="color:rgb(30, 35, 107);font-size: 1.5rem;" class="control-item"
+                                  class="ion ion-ios-eye" title="View File"
+                                  (click)="imagePopup(transcripts.controls['transcript'].controls[i].controls.fileName.value); ">
+                                </nb-action>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <nb-action style="color:rgb(206, 6, 6);font-size: 1.5rem;" class="control-item"
+                                  class="ion ion-ios-trash" title="Delete File"
+                                  (click)="deleteDocument(transcripts.controls['transcript'].controls[i].controls.id.value)">
+                                </nb-action>
+                              </nb-actions>
+                            </div>
+                          </div>
+    
+                        </div>
+    
+                      </div>
+    
+                    </form> -->
+    
+                    <form [formGroup]="degrees" *ngIf="degree==true">
+                      <div class="form-group" formArrayName="degree"
+                        *ngFor="let deg of degrees.get('degree')['controls']; let i = index;">
+                        <div class="tab3" [formGroupName]="i">
+                          <h6>
+                            Enter Degree {{i + 1}} Details
+                          </h6>
+                          <div class="from">
+                            <div class="row">
+                              <div class="col-xl-4">
+                                <label>Course<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input id="degreeCourse" type="text" placeholder="Select Course" aria-label="course"
+                                  matInput formControlName="courseName" [matAutocomplete]="degreeAuto">
+                                <mat-autocomplete [displayWith]="displayFn" #degreeAuto="matAutocomplete">
+                                  <mat-option *ngFor="let option of filteredOptions3[i] | async" [value]="option.name">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <div *ngIf="(deg.get('courseName').errors && (deg.get('courseName').dirty || deg.get('courseName').touched))" >
+                                  <div *ngIf="deg.get('courseName').errors.required"><span style="color:red; font-weight:bold;">course should be required.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Course Type<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select  formControlName="courseType" placeholder="select Course Type" class="custom-select">
+                                  <mat-option *ngFor="let option of courseTypes" [value]="option.type">
+                                    {{option.type}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(deg.get('courseType').errors && (deg.get('courseType').dirty || deg.get('courseType').touched))" >
+                                  <div *ngIf="deg.get('courseType').errors.required"><span style="color:red; font-weight:bold;">Course Type should be required.</span></div>
+                                </div> 
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Seat No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput formControlName="seatNo" maxlength="10" placeholder="Seat No" onkeypress="return event.charCode >=48 && event.charCode <=57 || 
+                                (event.charCode > 64 && event.charCode < 91) || 
+                                (event.charCode > 96 && event.charCode < 123) && (event.charCode!==32)" />
+                                <div *ngIf="(deg.get('seatNo').errors && (deg.get('seatNo').dirty || deg.get('seatNo').touched))" >
+                                  <div *ngIf="deg.get('seatNo').errors.required"><span style="color:red; font-weight:bold;">Seat no is required.</span></div>
+                                  <div *ngIf="deg.get('seatNo').errors.maxlength">
+                                    <span style="color:red; font-weight:bold;">Seat Number must be up to 10 digits long.</span>
+                                </div>
+                                </div>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Passing Month-Year<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput [matDatepicker]="dp" formControlName="passingMonthYear" (focus)="dp.open()"
+                                  readonly />
+                                <mat-datepicker #dp startView="multi-year"
+                                  (monthSelected)="chosenMonthHandler($event,dp,'degree',i,'')"
+                                  panelClass="example-month-picker">
+                                </mat-datepicker>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>
+                                  Convocation Date<span style="color:red; font-weight:bold">*</span>
+                                </label>
+                                <input nbInput [nbDatepicker]="picker" placeholder="Convocation Date"  formControlName="convocationDate">
+                                <nb-datepicker [max]="max" #picker></nb-datepicker>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Convocation No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input matInput formControlName="convocationNo" placeholder="Convocation No"/>
+                                <div *ngIf="(deg.get('convocationNo').errors && (deg.get('convocationNo').dirty || deg.get('convocationNo').touched))" >
+                                  <div *ngIf="deg.get('convocationNo').errors.required"><span style="color:red; font-weight:bold;">Convocation No is required.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-xl-4">
+                                <label>Result Class<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select  formControlName="result" placeholder="select result class" class="custom-select">
+                                  <mat-option *ngFor="let option of resultClasses" [value]="option.name">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(deg.get('result').errors && (deg.get('result').dirty || deg.get('result').touched))" >
+                                  <div *ngIf="deg.get('result').errors.required"><span style="color:red; font-weight:bold;">Result class is required.</span></div>
+                                </div>
+                              </div>
+
+                              
+                              <div class="col-xl-4">
+                                <label>Grade<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <mat-select formControlName="grade" placeholder="select grade" class="custom-select">
+                                  <mat-option *ngFor="let option of grades" [value]="option.name">
+                                    {{option.name}}
+                                  </mat-option>
+                                </mat-select>
+                                <div *ngIf="(deg.get('grade').errors && (deg.get('grade').dirty || deg.get('grade').touched))" >
+                                  <div *ngIf="deg.get('grade').errors.required"><span style="color:red; font-weight:bold;">Grade is required.</span></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row" style="font-size: 16px; color: red; font-style: italic;">
+                            <b>(NOTE : Click on save button to save educational details<br> Upload document option enable
+                              after saving education details)</b>
+    
+                            <span class="text-danger pl-1">*</span>
+                          </div>&nbsp;
+                          <div class="row SUbtn">
+                            <div class="col-md-2">
+                              <button (click)="saveDocumentsDetails('degree',i)">Save</button>
+                            </div>
+                            <div class="col-md-2">
+                              <button nbButton hero status="danger" (click)="deleteDetails(degrees.controls['degree'].controls[i].controls.id.value,'edu_details')">Delete</button></div>
+                            <div class="col-md-2">
+                              <p-fileUpload chooseLabel="Upload"
+                                *ngIf="degrees.controls['degree'].controls[i].controls.fileName.value == null || degrees.controls['degree'].controls[i].controls.fileName.value == undefined"
+                                name="file" mode="basic" auto="true" [accept]="'.pdf,.jpg,.png'"
+                                [disabled]="degrees.controls['degree'].controls[i].controls.id.value == null"
+                                url="{{uploadUrl}}/student/uploadDocument?doc_id={{degrees.controls['degree'].controls[i].controls.id.value}}"
+                                maxFileSize="5000000" (onBeforeSend)="onBeforeSend($event)" (onUpload)="onUpload($event)"
+                                (onSelect)="onSelect($event)">
+                              </p-fileUpload>
+    
+                              <nb-actions size="medium" fullWidth
+                                *ngIf="degrees.controls['degree'].controls[i].controls.fileName.value != null">
+                                <nb-action style="color:rgb(30, 35, 107);font-size: 1.5rem;" class="control-item"
+                                  class="ion ion-ios-eye" title="View File"
+                                  (click)="imagePopup(degrees.controls['degree'].controls[i].controls.fileName.value); ">
+                                </nb-action>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <nb-action style="color:rgb(206, 6, 6);font-size: 1.5rem;" class="control-item"
+                                  class="ion ion-ios-trash" title="Delete File"
+                                  (click)="deleteDocument(degrees.controls['degree'].controls[i].controls.id.value)">
+                                </nb-action>
+                              </nb-actions>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+    
+                    </form>
+                  </div>
+                  <div class="col-xl-3">
+                    <div class="row">
+                      <div class="col-xl-2"></div>
+                      <div class="col-xl-8" style="padding-top:100px;">
+                        <p style="font-size: 150%"><b>Need Help?</b></p><br>
+                        <img class="videoimg"  src="{{uploadUrl}}/api/images/PLAY.png" data-toggle="modal" data-width="640" data-height="360" data-target="#myModal" data-video-fullscreen=""  (click)="videoPopup(2)">
+                        <br>
+                        <h5>Email Us on <a style="color:#40dc7e">{{helpEmailId}}</a></h5>
+                      </div>
+                      <div class="col-md-2"></div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+                <div *ngIf="(degree && showDegreet)">
+                  <label  style="color: black; font-weight: bold; font-size: 18px;">Supportive Document</label>
+                  <nb-card>
+                    <nb-card-body style="display: flex; flex-wrap: wrap;">
+                      <div class="col-xl-4">
+                        <label>Course</label>
+                        <br />
+                        <input id="course" type="text" placeholder="Select Course" aria-label="course" matInput
+                          [(ngModel)]="courseName" [matAutocomplete]="courseAuto"
+                          [matAutocompleteDisabled]="!courseAuto">
+                        <mat-autocomplete [displayWith]="displayFn" #courseAuto="matAutocomplete">
+                          <mat-option *ngFor="let option of courseData " [value]="option.name">
+                            {{option.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                      <div class="col-xl-4">
+                        <label>Select Pattern</label>
+                        <br />
+                        <mat-select class="matSelect" [(ngModel)]="patternSup"
+                          placeholder="select Examination pattern" (selectionChange)="onPatternSelection($event)">
+                          <mat-option *ngFor="let option of patterns" [value]="option.name">
+                            {{option.name}}
+                          </mat-option>
+                        </mat-select>
+                      </div>
+                      <div class="col-md-4">
+                        <label *ngIf="patternValue == null">Year/Semesters</label>
+                        <label *ngIf="patternValue == 'Annual'">Annual</label>
+                        <label *ngIf="patternValue == 'Semester'">Semester</label><span
+                          style="color:red; font-weight:bold">*</span>
+                        <br />
+                        <input id="semester" type="text" placeholder="Select {{patternValue}} " aria-label="course"
+                          [(ngModel)]="pattern_Type" (ngModelChange)="checkFormValidity()"[matAutocomplete]="semester" [matAutocompleteDisabled]="!semester">
+                        <mat-autocomplete [displayWith]="displayFn1" #semester="matAutocomplete">
+                          <mat-option *ngFor="let option of valueOfPattern" [value]="option.term_name">
+                            {{option.term_name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                      <br><br>
+                      <div class="col-xl-4" style="flex: 1; min-width: 100%;">
+                        <p-fileUpload chooseLabel="Upload" name="file" mode="basic" auto="true"
+                          [accept]="'.pdf,.jpg,.png'"
+                          url="{{uploadUrl}}/student/uploadDocument?userId={{user_id}}&type=supportive&semester={{pattern_Type}}&courseName={{courseName}}"
+                          maxFileSize="5000000" (onBeforeSend)="onBeforeSend($event)" (onUpload)="onUpload($event)"
+                          (onSelect)="onSelect($event)" [disabled]="!isFormValid">
+                        </p-fileUpload>
+                        
+                        <br><br>
+                        <div *ngFor="let fileData of data">
+                          <nb-card *ngIf="fileData.file !== null">
+                            <ul>
+                              <li>
+                                <span style="font-weight: bold;">{{fileData.semester}} </span>
+                                <nb-actions size="medium" fullWidth style="display: flex; gap: 20px;">
+                                  <nb-action style="color:rgb(30, 35, 107);font-size: 1.5rem;"
+                                    class="control-item ion ion-ios-eye" title="View File"
+                                    (click)="imagePopup(fileData?.file,'edu_document')">
+                                  </nb-action>&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <nb-action style="color:rgb(206, 6, 6);font-size: 1.5rem;"
+                                    class="control-item ion ion-ios-trash" title="Delete File"
+                                    (click)="deleteDetails(fileData?.id,'edu_details')">
+                                  </nb-action>
+                                </nb-actions>
+                              </li>
+                            </ul>
+                          </nb-card>
+                        </div>
+
+                      </div>
+
+
+                    </nb-card-body>
+                  </nb-card>
+
+                </div>
+
+                <div class="navebtn">
+                  <button (click)="prevStep();" nbButton>previous</button>
+                  <button (click)="nextStep();" style="margin-left: 5%;" nbButton>next</button>
+                </div>
+              </div>
+            </nb-step>
+
+            <nb-step [completed]="tabcheck3" label="Institute Details">
+              <div class="fontmedia">
+                <h2>Add Institute details where the documents to be sent</h2>
+              </div>
+              <div style="text-align: left; ">
+                <h5>Instructions</h5>
+                <ul>
+                  <li style="color: red;"><b> Normal delivery mode takes 30 days to process the application</b></li>
+                  <!-- <li style="color: red;"><b> Urgent delivery mode takes 5 days to process the application</b></li> -->
+                  <li style="color: red;"><b> Input the Institute details of where you want to send the documents</b>
+                  </li>
+                  <li style="color: red;"><b> Reference No is the unique identification number based on which your
+                      Institute/Agency will identify your documents</b></li>
+                  <!-- <li style="color: red;"><b> In case of Sealed envelope, Add the complete address of the recipient</b>
+                  </li> -->
+                </ul>
+              </div>
+              <nb-card>
+
+                <!-- <nb-card-header *ngIf="viewInstitute == false"
+                  style="border-bottom: solid 1px black; margin-bottom: 2%;">
+                  <div class="row">
+                    <div class="col-xl-3">
+                      <label>Select the delivery mode option :</label>
+                    </div>
+                    <div class="col-xl-3">
+                      <nb-radio-group name="deliveryMode" [(ngModel)]="selectedDeliveryMode"
+                        (ngModelChange)="selectDeliveryOption()">
+                        <nb-radio value="Normal">Normal</nb-radio>
+                        <nb-radio value="Urgent">Urgent</nb-radio>
+                      </nb-radio-group>
+                    </div>
+                  </div>
+
+                </nb-card-header> -->
+
+                <nb-card-header *ngIf="viewInstitute == true">
+                  <!-- <div class="row">
+                    <div class="col-xl-4">
+                      Delivery Mode : {{selectedDelivery}} - {{selectedDeliveryMode}}
+                    </div>
+                    <div class="col-xl-2 SUbtn">
+                      <button (click)="changeDeliveryMode()">Change</button>
+                    </div>
+                  </div> -->
+                </nb-card-header>
+
+                <nb-card-body>
+                  <div class="row">
+                    <div class="col-xl-9">
+                      <div class="tabset">
+                        <div class="tabsets" (click)="InMarksheets()" *ngIf="verificationTypes?.marksheet == true">
+                          <h3 [ngClass]="{'tabsets1':Inmarksheetss ,'tabsets':!Inmarksheetss}">
+                            Marksheets
+                          </h3>
+                        </div>
+                        <!-- <div class="tabsets" (click)="Transcripts()" *ngIf="verificationTypes?.transcript == true">
+                          <h3 [ngClass]="{'tabsets1':transcriptss ,'tabsets':!transcriptss}">
+                            Transcripts
+                          </h3>
+                        </div> -->
+                        <div class="tabsets" (click)="InDegree()" *ngIf="verificationTypes?.degreeCertificate == true">
+                          <h3 [ngClass]="{'tabsets1':Indegree ,'tabsets':!Indegree}">
+                            Degree Certificate
+                          </h3>
+                        </div>
+                      </div>
+    
+                      <form [formGroup]="marksheets" class="InstituteDetails" *ngIf="Inmarksheetss==true">
+                        <div class="form-group" formArrayName="marksheetInstitute"
+                          *ngFor="let marksheet of marksheets.get('marksheetInstitute')['controls']; let i = index;">
+                          <div class="tab1" [formGroupName]="i">
+                            <h5>Institute/ Agency/ Company</h5>
+                            <h6>Enter {{i + 1}} Details</h6><span style="color:red; font-weight:bold;">Read the filled details carefully and save details by clicking on save</span>
+                            <div class="row">
+                              <div class="col-xl-3">
+                                <label>Reference No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input   type="text"
+                                class="form-control" type="text" nbInput formControlName="referenceNo"
+                                  (blur)="setToOtherFields('marksheet',$event,i,'refNO')">
+                                  <div *ngIf="(marksheet.get('referenceNo').errors && marksheet.get('referenceNo').errors.required)">
+                                    <div *ngIf="(marksheet.get('referenceNo').errors && (marksheet.get('referenceNo').dirty || marksheet.get('referenceNo').touched))"><span style="color:red; font-weight:bold;">Reference number is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3">
+                                <label>Name<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input class="form-control" type="text" nbInput formControlName="name"
+                                  (blur)="setToOtherFields('marksheet',$event,i,'instName')">
+                                  <div *ngIf="(marksheet.get('name').errors && marksheet.get('name').errors.required)"  >
+                                    <div *ngIf="(marksheet.get('name').errors && (marksheet.get('name').dirty || marksheet.get('name').touched))"><span style="color:red; font-weight:bold;">Name is required.</span>Name is required.</div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3">
+                                <label>Address<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input class="form-control" type="textarea" nbInput formControlName="address"
+                                  (blur)="setToOtherFields('marksheet',$event,i,'address')">
+                                  <div *ngIf="(marksheet.get('address').errors && marksheet.get('address').errors.required)">
+                                    <div *ngIf="(marksheet.get('address').errors && (marksheet.get('address').dirty || marksheet.get('address').touched))" ><span style="color:red; font-weight:bold;">Address is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3" *ngIf="selectedDelivery == 'Digital'">
+                                <!-- <label>email</label> -->
+                                <label>email<span style="color:red; font-weight:bold">*</span></label>
+
+                                <br />
+                                <!-- <input type="text" nbInput formControlName="email"> -->
+                                <input type="email" class="form-control" formControlName="email"
+                                  (blur)="setToOtherFields('marksheet',$event,i,'email')" />
+                                  <div *ngIf="(marksheet.get('email').errors && marksheet.get('email').errors.required)"  >
+                                    <div *ngIf="(marksheet.get('email').errors && (marksheet.get('email').dirty || marksheet.get('email').touched))" ><span style="color:red; font-weight:bold;">Email address is required.</span></div>
+                                  </div>
+                                  <span style="color :red" *ngIf="marksheet.get('email').errors?.pattern">Please enter valid Email Id</span>
+                              </div>
+                            </div>
+                            <div class="row SUbtn">
+                              <div class="col-md-2">
+                                <button (click)="saveInstituteDetails('marksheet',i)">Save</button>
+                              </div>
+                               <div class="col-md-2">
+                                <button nbButton hero status="danger"
+                                  (click)="deleteDetails(marksheets.controls['marksheetInstitute'].controls[i].controls.id.value,'Ins_details')">Delete</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+    
+                      <!-- <form [formGroup]="transcripts" class="InstituteDetails" *ngIf="transcriptss==true">
+                        <div class="form-group" formArrayName="transcriptInstitute"
+                          *ngFor="let transcript of transcripts.get('transcriptInstitute')['controls']; let i = index;">
+                          <div class="tab1" [formGroupName]="i">
+                            <h5>Institute/ Agency/ Company</h5>
+                            <h6>Enter {{i + 1}} Details</h6><span style="color:red; font-weight:bold;">Read the filled details carefully and save details by clicking on save</span>
+                            <div class="row">
+                              <div class="col-xl-3">
+                                <label>Reference No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input  class="form-control" type="text" nbInput formControlName="referenceNo"
+                                  (blur)="setToOtherFields('transcript',$event,i,'refNO')">
+                                  <div *ngIf="(transcript.get('referenceNo').errors && transcript.get('referenceNo').errors.required)"  >
+                                    <div *ngIf="(transcript.get('referenceNo').errors && (transcript.get('referenceNo').dirty || transcript.get('referenceNo').touched))"><span style="color:red; font-weight:bold;">Reference number is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3">
+                                <label>Name<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input class="form-control" type="text" nbInput formControlName="name"
+                                  (blur)="setToOtherFields('transcript',$event,i,'instName')">
+                                <div *ngIf="(transcript.get('name').errors && transcript.get('name').errors.required)"  >
+                                  <div *ngIf="(transcript.get('name').errors && (transcript.get('name').dirty || transcript.get('name').touched))"><span style="color:red; font-weight:bold;">Name is required.</span></div>
+                                </div>
+                              </div>
+                              <div class="col-xl-3" >
+                                <label>Address<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input  class="form-control" type="textarea" nbInput formControlName="address"
+                                  (blur)="setToOtherFields('transcript',$event,i,'address')">
+                                  <div *ngIf="(transcript.get('address').errors && transcript.get('address').errors.required)"  >
+                                    <div *ngIf="(transcript.get('address').errors && (transcript.get('address').dirty || transcript.get('address').touched))"><span style="color:red; font-weight:bold;">Address is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3" *ngIf="selectedDelivery == 'Digital'">
+                                <label>email<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input
+                                  
+                                  type="email" class="form-control" formControlName="email"
+                                  (blur)="setToOtherFields('transcript',$event,i,'email')" />
+                                  <div *ngIf="(transcript.get('email').errors && transcript.get('email').errors.required)"  >
+                                    <div *ngIf="(transcript.get('email').errors && (transcript.get('email').dirty || transcript.get('email').touched))"><span style="color:red; font-weight:bold;">Email address is required.</span></div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="row SUbtn">
+                              <div class="col-md-2">
+                                <button (click)="saveInstituteDetails('transcript',i)">Save</button>
+                              </div>
+                              <div class="col-md-2">
+                                <button nbButton hero status="danger"
+                                  (click)="deleteDetails(transcripts.controls['transcriptInstitute'].controls[i].controls.id.value,'Ins_details')">Delete</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form> -->
+    
+                      <form [formGroup]="degrees" class="InstituteDetails" *ngIf="Indegree==true">
+                        <div class="form-group" formArrayName="degreeInstitute"
+                          *ngFor="let degree of degrees.get('degreeInstitute')['controls']; let i = index;">
+                          <div class="tab1" [formGroupName]="i">
+                            <h5>Institute/ Agency/ Company</h5>
+                            <h6>Enter {{i + 1}} Details</h6><span style="color:red; font-weight:bold;">Read the filled details carefully and save details by clicking on save</span>
+                            <div class="row">
+                              <div class="col-xl-3">
+                                <label>Reference No<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input    type="text"  class="form-control" type="text" nbInput formControlName="referenceNo"
+                                  (blur)="setToOtherFields('degree',$event,i,'refNO')">
+                                  <div *ngIf="(degree?.get('referenceNo').errors && degree?.get('referenceNo').errors.required)"  >
+                                    <div *ngIf="(degree?.get('referenceNo').errors && (degree?.get('referenceNo').dirty || dgeree?.get('referenceNo').touched))"><span style="color:red; font-weight:bold;">Reference number is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3">
+                                <label>Name<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input type="text" nbInput formControlName="name"
+                                  (blur)="setToOtherFields('degree',$event,i,'instName')">
+                                  <div *ngIf="(degree.get('name').errors && degree.get('name').errors.required)"  >
+                                    <div *ngIf="(degree.get('name').errors && (degree.get('name').dirty || degree.get('name').touched))"><span style="color:red; font-weight:bold;">Name is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3">
+                                <label>Address<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input  type="textarea" nbInput formControlName="address"
+                                  (blur)="setToOtherFields('degree',$event,i,'address')">
+                                  <div *ngIf="(degree.get('address').errors && degree.get('address').errors.required)"  >
+                                    <div *ngIf="(degree.get('address').errors && (degree.get('address').dirty || degree
+                                    .get('address').touched))"><span style="color:red; font-weight:bold;">Address is required.</span></div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-3" *ngIf="selectedDelivery == 'Digital'">
+                                <label>email<span style="color:red; font-weight:bold">*</span></label>
+                                <br />
+                                <input 
+                                  type="email" class="form-control" formControlName="email"
+                                  (blur)="setToOtherFields('degree',$event,i,'email')" />
+                                  <div *ngIf="(degree.get('email').errors && degree.get('email').errors.required)"  >
+                                    <div *ngIf="(degree.get('email').errors && (degree.get('email').dirty || degree.get('email').touched))"><span style="color:red; font-weight:bold;">Email address is required.</span></div>
+                                  </div>
+                                  <span style="color :red" *ngIf="degree.get('email').errors?.pattern">Please enter valid Email Id</span>
+                              </div>
+                            </div>
+                            <div class="row SUbtn">
+                              <div class="col-md-2">
+                                <button (click)="saveInstituteDetails('degree',i)">Save</button>
+                              </div>
+                              <div class="col-md-2">
+                                <button nbButton hero status="danger"
+                                  (click)="deleteDetails(degrees.controls['degreeInstitute'].controls[i].controls.id.value,'Ins_details')">Delete</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+    
+                    </div>
+                    <div class="col-xl-3">
+                      <div class="row">
+                        <div class="col-xl-2"></div>
+                        <div class="col-xl-8" style="padding-top:100px;">
+                          <p style="font-size: 150%"><b>Need Help?</b></p><br>
+                          <img class="videoimg"  src="{{uploadUrl}}/api/images/PLAY.png" data-toggle="modal" data-width="640" data-height="360" data-target="#myModal" data-video-fullscreen=""  (click)="videoPopup(3)">
+                          <br>
+                          <h5>Email Us on <a style="color:#40dc7e">{{helpEmailId}}</a></h5>
+                        </div>
+                        <div class="col-md-2"></div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  
+
+                </nb-card-body>
+
+                <nb-card-footer>
+                  <button (click)="prevStep();" nbButton>previous</button>
+                  <button (click)="nextStep();" style="margin-left: 5%;" nbButton>next</button>
+                </nb-card-footer>
+              </nb-card>
+            </nb-step>
+
+            <nb-step [completed]="tabcheck4" label="Preview">
+              <nb-card>
+
+                <nb-card-body>
+                  <div style="text-align: left; ">
+                    <h5>Instructions</h5>
+                    <ul>
+                      <li style="color: red;"><b> Kindly verify all the data before proceeding for payment</b></li>
+                      <li style="color: red;"><b> In case you want to edit/remove any data, Kindly GO to the respective
+                          step.
+                          Don’t forget to save the data before ahead again</b></li>
+                      <li style="color: red;"><b> Click on each document to preview it. If you have upload PDF file,
+                          then click on the PDF icon to preview the document. </b></li>
+                    </ul>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1">
+                      <img src="{{logo}}" style="height: 45px; width: 45px;">
+                    </div>
+                    <div class="col-md-10" style="margin-left: -4%;">
+                      <label style="font-size: x-large; font-family: initial;">HSNC UNIVERSITY</label><br>
+                      <label style="font-size: unset; font-family: initial;">Application Form for
+                        Marksheet/Degree Certifiacte Verification</label><br>
+                      <div style="text-align: center;"> <label style="font-size: unset; font-family: initial;color:red">
+                          <span *ngIf="verificationDetails?.marksheet == true">
+                            Marksheet ({{verificationDetails?.noOfMarksheet}})
+                          </span>
+                          <!-- <span *ngIf="verificationDetails?.transcript == true"> + Transcript
+                            ({{verificationDetails?.noOfTranscript}})</span> -->
+                          <span *ngIf="verificationDetails?.degreeCertificate == true"> + Degree Certificate
+                            ({{verificationDetails?.noOfDegree}})</span>
+                        </label></div>
+                    </div>
+                  </div>
+                  <nb-card>
+                    <nb-card-header>
+                      <span style="font-weight:'bold'; font-size:16px;">Personal Details</span>
+                    </nb-card-header>
+                    <nb-card-body>
+                      <div class="row">
+                        <div class="col-xl-4">Student Name : </div>
+                        <div class="col-xl-4">{{personalDetails?.marksheetName}}</div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-4">Email Address : </div>
+                        <div class="col-xl-4">{{personalDetails?.email}}</div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-4">Mobile No : </div>
+                        <div class="col-xl-4">{{personalDetails?.mobile}}</div>
+                      </div>
+                      
+
+                    </nb-card-body>
+                  </nb-card>
+                  <div class="col-md-12" *ngIf="marksheetDetails != ''">
+                    <h4>Marksheet Verification Details</h4>
+                    
+
+                    <nb-card>
+                      <nb-card-header>
+                        <div><span style="font-weight:'bold'; font-size:16px;">Institute Details</span></div>
+                      </nb-card-header>
+                      <nb-card-body>
+                        <form [formGroup]="marksheets">
+                          <div *ngFor="let marksheetInstitute of marksheetInstituteDetails let i= index">
+                            <nb-card-body>
+                              <div style="font-weight:bold;">Institute/Agency {{ i+1}} </div>
+                              <div class="row">
+                                <div class="col-xl-4">Reference No  : </div>
+                                <div class="col-xl-4">{{marksheetInstitute?.referenceNo}}</div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xl-4">Name  : </div>
+                                <div class="col-xl-4">{{marksheetInstitute?.name}}</div>
+                              </div>
+                              <div class="row">
+                                <div class="col-xl-4">Email  : </div>
+                                <div class="col-xl-4">{{marksheetInstitute?.email}}</div>
+                              </div>
+                              <div class="row">
+                                <div class="col-xl-4">Address : </div>
+                                <div class="col-xl-4">{{marksheetInstitute?.address}}</div>
+                              </div>
+                            </nb-card-body>
+                          </div>
+                        </form>
+                      </nb-card-body>
+                    </nb-card>
+
+                    <nb-card>
+                      <nb-card-header>
+                        <div><span style="font-weight:'bold'; font-size:16px;">Educational Details</span></div>
+                      </nb-card-header>
+                      <nb-card-body>
+                        <!-- <form [formGroup]="marksheets" *ngIf="marksheetss==true"> -->
+                        <div *ngFor="let marksheet of marksheetDetails let i= index">
+
+                          <div style="font-weight:bold;">Marksheet {{ i+1}} </div>
+                          <div class="row">
+                            <div class="col-xl-4">Degree / Course  : </div>
+                            <div class="col-xl-4">{{marksheet?.courseName}}</div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-xl-4">Course Type : </div>
+                            <div class="col-xl-4">{{marksheet?.courseType}}</div>
+                          </div>
+
+                         <div class="row">
+                            <div class="col-xl-4">Seat Number : </div>
+                            <div class="col-xl-4">{{marksheet?.seatNo}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Month-Year  : </div>
+                            <div class="col-xl-4">{{marksheet?.passingMonthYear}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Result Class : </div>
+                            <div class="col-xl-4">{{marksheet?.result}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">SGPI/CGPA : </div>
+                            <div class="col-xl-4">{{marksheet?.sgpi}}</div>
+                          </div>
+                          <br/>
+                        </div>
+                      </nb-card-body>
+
+                      <!-- </form> -->
+                    </nb-card>
+                  </div>
+
+                  <!-- <div class="col-md-12" *ngIf="transcriptDetails !=''">
+                    <h4>Transcripts Verification Details</h4>
+                    <nb-card>
+                      <nb-card-header>
+                        <div><span style="font-weight:'bold'; font-size:16px;">Institute Details</span></div>
+                      </nb-card-header>
+                      <nb-card-body>
+                        <form [formGroup]="transcripts">
+                          <div *ngFor="let transcriptInstitute of transcriptInstituteDetails let i= index">
+                            <nb-card-body>
+                              <div style="font-weight:bold;">Institute/Agency/Company {{ i+1}} </div>
+                              <div class="row">
+                                <div class="col-xl-4">Reference No : </div>
+                                <div class="col-xl-4">{{transcriptInstitute?.referenceNo}}</div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xl-4">Email  : </div>
+                                <div class="col-xl-4">{{transcriptInstitute?.email}}</div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xl-4">Name  : </div>
+                                <div class="col-xl-4">{{transcriptInstitute?.name}}</div>
+                              </div>
+                              <div class="row">
+                                <div class="col-xl-4">Address : </div>
+                                <div class="col-xl-4">{{transcriptInstitute?.address}}</div>
+                              </div>
+                            </nb-card-body>
+                          </div>
+                        </form>
+                      </nb-card-body>
+                    </nb-card>
+
+                    <nb-card>
+                      <nb-card-header>
+                        <div><span style="font-weight:'bold'; font-size:16px;">Educational Details</span></div>
+                      </nb-card-header>
+
+                      <nb-card-body>
+                        <div *ngFor="let transcript of transcriptDetails let i= index">
+                          <div style="font-weight:bold;">Transcript {{ i+1}} </div>
+                          <div class="row">
+                            <div class="col-xl-4">Degree / Course : </div>
+                            <div class="col-xl-4">{{transcript?.courseName}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Seat Number : </div>
+                            <div class="col-xl-4">{{transcript?.seatNo}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Month-Year : </div>
+                            <div class="col-xl-4">{{transcript?.passingMonthYear}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Transcript Number : </div>
+                            <div class="col-xl-4">{{transcript?.transcriptNo}}</div>
+                          </div>
+                        </div>
+                      </nb-card-body>
+
+                    </nb-card>
+                  </div> -->
+
+                  <div class="col-md-12" *ngIf="degreeDetails !=''">
+                    <h4>Degree Verification Details</h4>
+                    <nb-card>
+                      <nb-card-header>
+                        <div><span style="font-weight:'bold'; font-size:16px;">Institute Details</span></div>
+                      </nb-card-header>
+                      <nb-card-body>
+                        <form [formGroup]="degrees">
+                          <div *ngFor="let degreeInstitute of degreeInstituteDetails let i= index">
+                            <nb-card-body>
+                              <div style="font-weight:bold;">Institute/Agency/Company {{ i+1}} </div>
+                              <div class="row">
+                                <div class="col-xl-4">Reference No : </div>
+                                <div class="col-xl-4">{{degreeInstitute?.referenceNo}}</div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xl-4">Email  : </div>
+                                <div class="col-xl-4">{{degreeInstitute?.email}}</div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-xl-4"> Name  : </div>
+                                <div class="col-xl-4">{{degreeInstitute?.name}}</div>
+                              </div>
+                              <div class="row">
+                                <div class="col-xl-4">Address : </div>
+                                <div class="col-xl-4">{{degreeInstitute?.address}}</div>
+                              </div>
+                            </nb-card-body>
+                          </div>
+                        </form>
+                      </nb-card-body>
+                    </nb-card>
+
+                    <nb-card>
+                      <nb-card-header>
+                        <div><span style="font-weight:'bold'; font-size:16px;">Educational Details</span></div>
+                      </nb-card-header>
+
+                      <nb-card-body>
+                        <div *ngFor="let degree of degreeDetails let i= index">
+                          <div style="font-weight:bold;">Degree Certificate {{ i+1}} </div>
+                          <div class="row">
+                            <div class="col-xl-4">Degree Name  : </div>
+                            <div class="col-xl-4">{{degree?.courseName}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Course Type : </div>
+                            <div class="col-xl-4">{{degree?.courseType}}</div>
+                          </div>
+                         <div class="row">
+                            <div class="col-xl-4">Last Year Seat No  : </div>
+                            <div class="col-xl-4">{{degree?.seatNo}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Result Class : </div>
+                            <div class="col-xl-4">{{degree?.result}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Month-Year : </div>
+                            <div class="col-xl-4">{{degree?.passingMonthYear}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Convocation Date : </div>
+                            <div class="col-xl-4">{{degree?.convocationDate}}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-4">Convocation Number : </div>
+                            <div class="col-xl-4">{{degree?.convocationNo}}</div>
+                          </div>
+                        </div>
+                      </nb-card-body>
+
+                    </nb-card>
+                  </div>
+
+                  <nb-card>
+                    <nb-card-header>
+                      <span style="font-weight:'bold'; font-size:16px;">Upload Document Details</span>
+                    </nb-card-header>
+                    <nb-card-body>
+
+                      <div *ngIf="verificationDetails?.marksheet == true">
+                        <hr />
+                        <div class="row">
+                          <div class="col-xl-4" style="font-weight: bold; font-size: 14px; margin-bottom: 3%;">Marksheet
+                          </div>
+                        </div>
+                        <div *ngFor="let marksheet of marksheetDetails">
+                          <div class="row">
+                            <div class="col-xl-3" (click)="imagePopup(marksheet?.fileName)">
+                              <div *ngIf=" marksheet.fileExtension  == 'pdf'">
+                                <img src="{{ pdfImg }}" width="100px;" height="100px;">
+                              </div>
+                              <div *ngIf=" marksheet.fileExtension  != 'pdf'">
+                                <img src="{{marksheet?.fileSrc}}" width="100px;" height="100px;">
+                              </div>
+                            </div>
+                          </div>
+                          <br/>
+
+                        </div>
+
+                      </div>
+
+                      <!-- <div *ngIf="verificationDetails?.transcript == true">
+                        <hr />
+                        <div class="row">
+                          <div class="col-xl-4" style="font-weight: bold; font-size: 14px; margin-bottom: 3%;">
+                            Transcripts</div>
+                        </div>
+                        <div *ngFor="let transcript of transcriptDetails">
+                          <div class="row">
+                            <div class="col-xl-3" (click)="imagePopup(transcript?.fileName)">
+                              <div *ngIf=" transcript.fileExtension  == 'pdf'">
+                                <img src="{{ pdfImg }}" width="100px;" height="100px;">
+                              </div>
+                              <div *ngIf=" transcript.fileExtension  != 'pdf'">
+                                <img src="{{transcript?.fileSrc}}" width="100px;" height="100px;">
+                              </div>
+
+                            </div>
+                          </div>
+                          <br/>
+                        </div>
+                      </div> -->
+
+                      <div *ngIf="verificationDetails?.degreeCertificate == true">
+                        <hr />
+                        <div class="row">
+                          <div class="col-xl-4" style="font-weight: bold; font-size: 14px; margin-bottom: 3%;">Degree
+                            Certificates</div>
+                        </div>
+                        <div *ngFor="let degree of degreeDetails">
+                          <div class="row">
+                            <div class="col-xl-3" (click)="imagePopup(degree?.fileName)">
+                              <div *ngIf=" degree.fileExtension  == 'pdf'">
+                                <img src="{{ pdfImg }}" width="100px;" height="100px;">
+                              </div>
+                              <div *ngIf=" degree.fileExtension  != 'pdf'">
+                                <img src="{{degree?.fileSrc}}" width="100px;" height="100px;">
+                              </div>
+
+                            </div>
+                          </div>
+                          <br/>
+                        </div>
+
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </nb-card-body>
+                <nb-card-footer>
+                  <button (click)="prevStep();" style="margin-right: 5%;" nbButton>previous</button>
+                  <button (click)="nextStep();" nbButton>Proceed For Payment</button>
+                </nb-card-footer>
+              </nb-card>
+            </nb-step>
+
+          </nb-stepper>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-dialog [(visible)]="displayvideo1" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}">
+  <nb-card  style="width: 350px;min-width: 200px;">
+    <nb-card-body  id="cardbody1">
+      <video id="video1" src="{{uploadUrl}}/api/upload/video/Name.mp4" controls style="width: 300px;min-width: 200px;min-height: 200px;"></video>
+    </nb-card-body>
+  </nb-card>
+</p-dialog>
+
+<p-dialog [(visible)]="displayvideo2" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}">
+  <nb-card  style="width: 350px;min-width: 200px;">
+    <nb-card-body  id="cardbody2">
+      <video id="video2" src="{{uploadUrl}}/api/upload/video/AddressPRN.mp4" controls style="width: 300px;min-width: 200px;min-height: 200px;"></video>
+    </nb-card-body>
+  </nb-card>
+</p-dialog>
+
+<p-dialog [(visible)]="displayvideo3" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}">
+  <nb-card  style="width: 350px;min-width: 200px;">
+    <nb-card-body  id="cardbody3">
+      <video id="video3" src="{{uploadUrl}}/api/upload/video/Education.mp4" controls style="width: 300px;min-width: 200px;min-height: 200px;"></video>
+    </nb-card-body>
+  </nb-card>
+</p-dialog>

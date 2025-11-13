@@ -1,0 +1,60 @@
+<nb-card>
+	<nb-card-body>
+	  <div class="titleWrap">
+		  <label>Student Feedback</label>
+    </div>
+    <mat-spinner *ngIf="studentFeedbacks?.length < 1"></mat-spinner>
+    <div class="Rtable Rtable--5cols Rtable--collapse">
+      <div class="Rtable-row Rtable-row--head">
+        <div class="Rtable-cell date-cell-serial column-heading">Date</div>
+        <div class="Rtable-cell date-cell-email column-heading">Student Name</div>
+        <div class="Rtable-cell date-cell column-heading">How satisfied are you with the website?</div>
+        <div class="Rtable-cell date-cell column-heading">Will you recommend this website to others?</div>
+        <div class="Rtable-cell date-cell column-heading">Are you satisfied with technical team?</div>
+        <div class="Rtable-cell date-cell column-heading">Did you experience any problems with our services?</div>
+        <div class="Rtable-cell date-cell-problem-suggest column-heading">problem</div>
+        <div class="Rtable-cell date-cell-problem-suggest column-heading">Any Suggestions?</div>
+      </div>
+      
+      <div class="Rtable-row is-striped" *ngFor="let studentFeedback of studentFeedbacks | paginate: { itemsPerPage: 10, totalItems:studentFeedbacks?.length, currentPage: p } ;let i=index; ">
+        <div class="Rtable-cell date-cell-serial">
+          <div class="Rtable-cell--heading">Date</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback?.feedback_create}}</div>
+        </div>
+        <div class="Rtable-cell date-cell-email">
+          <div class="Rtable-cell--heading">Student Name</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback?.user_name}}</div>
+        </div>
+        <div class="Rtable-cell date-cell">
+          <div class="Rtable-cell--heading">How satisfied are you with the website?</div>
+          <div class="Rtable-cell--content title-content">{{studentFeedback?.website_satisfy}}</div>
+        </div>
+        <div class="Rtable-cell date-cell">
+          <div class="Rtable-cell--heading">Will you recommend this website to others?</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback.website_recommend}}</div>
+        </div>
+        <div class="Rtable-cell date-cell">
+          <div class="Rtable-cell--heading">Are you satisfied with technical team?</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback.staff_satisfy}}</div>
+        </div>
+        <div class="Rtable-cell date-cell">
+          <div class="Rtable-cell--heading">Did you experience any problems with our services?</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback.experience_problem}}</div>
+        </div>
+        <div class="Rtable-cell date-cell-problem-suggest">
+          <div class="Rtable-cell--heading">problem</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback.problem}}</div>
+        </div>
+        <div class="Rtable-cell date-cell-problem-suggest">
+          <div class="Rtable-cell--heading">Any Suggestions?</div>
+          <div class="Rtable-cell--content date-content">{{studentFeedback.suggestion}}</div>
+        </div>
+      </div>
+      <div *ngIf="studentFeedbacks?.length == 0">
+        <span style="color: red;">No Data Available</span>
+      </div>
+    </div>
+	  <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+	</nb-card-body>
+  </nb-card>
+  

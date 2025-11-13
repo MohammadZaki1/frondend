@@ -1,0 +1,168 @@
+$breakpoint: 750px;
+//$heading-color: #43BAC0;
+//$heading-color: rgb(47, 148, 243);
+$heading-color: #455f78;
+
+.nbCard_step1 {
+  width: auto;
+  height: auto;
+}
+
+.nbCard_step2 {
+  width: auto;
+  height: auto;
+}
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}
+
+
+ input {
+  width: 100%;
+  height: 48px;
+  padding-left: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #A4A4A4;
+  border-radius: 0.25rem;
+}
+
+select {
+  width: 100%;
+  height: 48px;
+  background: #FFFFFF;
+  border: 1px solid #A4A4A4;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.fontmedia {
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+  font-size: 20px;
+}
+
+.tabset {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.tabset h3 {
+  font-size: 25px;
+}
+
+.tabset .tabsets :hover{
+  opacity: 0.7;
+  border-style: solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: #7AC0F8;
+  border-bottom-color: #7AC0F8;
+}
+
+.tabset .tabsets1{
+  border-style: solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: #7AC0F8;
+  border-bottom-color: #7AC0F8;
+}
+
+.tab1 {
+  margin-top: 3%;
+  padding: 2%;
+  box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+}
+
+.tab2 {
+  margin-top: 3%;
+  padding: 2%;
+  box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+}
+
+
+.tab3 {
+  margin-top: 3%;
+  padding: 2%;
+  box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+}
+
+.SUbtn button {
+  width: 100%;
+  height: 38px;
+  color: #FFFFFF;
+  border-radius: 5px;
+  background-color: #3366FF;
+  border-color: #3366FF;
+  border-style: solid;
+}
+
+.SUbtn input[type=file]::file-selector-button {
+  width: 100%;
+  height: 38px;
+  color: #FFFFFF;
+  border-radius: 5px;
+  background-color: #3366FF;
+  border-color: #3366FF;
+  border-style: solid;
+}
+
+select{
+  border-radius: 5px;
+}
+
+.InstituteDetails{
+  margin-top: 2%;
+}
+
+
+// ------------media query for <430
+
+
+@media(max-width: 480px) {
+  .tabset {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navebtn {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .SUbtn button {
+    margin-bottom: 3%;
+  }
+
+  
+  .videoimg{
+    width: 150px;
+    height: 150px;
+  }
+  
+}
+
+.custom-select {
+  border: 1px solid gray;
+  border-radius: 4px; /* Optional: Add border radius for rounded corners */
+  padding: 8px; /* Optional: Add padding for spacing */
+  height: 47px;
+}
+
+.matSelect{
+  padding: 8px; /* Optional: Add padding for spacing */
+  height: 47px;
+  border: 1px solid gray;
+  border-radius: 4px; /* Optional: Add border radius for rounded corners */
+}

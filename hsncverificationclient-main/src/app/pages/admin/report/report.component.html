@@ -1,0 +1,273 @@
+<nb-card>
+  <nb-card-body>
+    <p-tabView (onChange)="getReportData($event)">
+
+      <p-tabPanel header="Activity Tracker">
+        <h3>Note : All Activity.</h3>
+        <form [formGroup]="searchForm">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label>Date </label><br>
+              <input nbInput fullWidth formControlName="dateCtrl" placeholder="Date" [nbDatepicker]="datepicker"
+                [ngClass]="{'form-control-danger': searchForm.controls.dateCtrl.invalid && (searchForm.controls.dateCtrl.dirty || searchForm.controls.dateCtrl.touched)}">
+              <nb-datepicker #datepicker [(date)]="date" [max]="max"></nb-datepicker>
+            </div>
+            <div class="col-md-4 form-group">
+              <label>DATA</label><br>
+              <input nbInput fullWidth formControlName="dataCtrl" [(ngModel)]="studentsdata" placeholder="studentsdata"
+                [ngClass]="{'form-control-danger': searchForm.controls.dataCtrl.invalid && (searchForm.controls.dataCtrl.dirty || searchForm.controls.dataCtrl.touched)}">
+            </div>
+            <div class="col-md-4 form-group">
+              <label>Email ID</label><br>
+              <input nbInput fullWidth formControlName="emailCtrl" [(ngModel)]="email" placeholder="email"
+                [ngClass]="{'form-control-danger': searchForm.controls.emailCtrl.invalid && (searchForm.controls.emailCtrl.dirty || searchForm.controls.emailCtrl.touched)}">
+            </div>
+
+            <div class="col-md-2">
+              <button nbButton (click)="clearFilterForActivity()">Clear</button>
+            </div>
+            <div class="col-md-2">
+              <button nbButton (click)="search()">Search</button>
+            </div>
+          </div>
+
+        </form>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" [value]="filterText" [placeholder]="filterPlaceholder"
+                [formControl]="filterInput" />
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div *ngIf="!activityData?.length">        
+          <div class="text-center"><i class="fa-solid fa-database fa-2x "></i></div><br>
+        <h4 class="text-center" style="color :#007BFF;">Find a Needle in the HayStack</h4><br>
+        <h5 class="text-center">View Activity Data By Clicking on 'Show All Activity data'</h5>&nbsp;
+        <div class="text-center"><button cButton color="secondary" (click)="refresh(null, null, null)" class="custom-btn">
+          Show All Students
+        </button></div>
+        </div>
+
+        <div class="wrapper" *ngIf="activityData?.length > 0">
+          <h5><b>Total Student count: {{activity_total?.totalLength}}</b></h5><br>
+
+          <table id="selectedColumn">
+
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Username</th>
+                <th>Action</th>
+                <th>DATA</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let activity of activityData | filter:{created_at: filterText, username:filterText, action:filterText, data:filterText }  | paginate: { itemsPerPage: 10, currentPage: p1 , totalItems: activity_total?.totalLength }">
+
+                <td>{{activity?.created_at}}</td>
+
+                <td>{{activity?.email}}</td>
+
+                <td>{{activity?.action}}</td>
+
+                <td>{{activity?.data}}</td>
+              </tr>
+            </tbody>
+
+          </table>
+          <div *ngIf="activity_total?.totalLength == 0">
+            <span style="color : red; font-size: 18px;">No Data Available</span>
+          </div>
+        </div>
+        <pagination-controls (pageChange)="page_Changed($event)" *ngIf="activityData?.length > 0"></pagination-controls>
+      </p-tabPanel>
+      <!-- <p-tabPanel header="Student Data">
+            <div class="titleWrap">
+              <label>Reports</label>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 ">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" [value]="filterText" [placeholder]="filterPlaceholder"
+                      [formControl]="filterInput" />
+                    <button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3">
+                  <label for="inputPermCountry">Country&nbsp;&nbsp;</label>
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="selectedCountry" placeholder="Select Country" name="selectedCountry"
+                      (ngModelChange)="countryWise($event)">
+                      <mat-option *ngFor="let country of Countries" [value]="country.name">
+                        {{country.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3">
+                  <label for="inputPermCountry">Apply For&nbsp;&nbsp;</label>
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="selectedEducation" placeholder="Select Apply For" name="selectedEducation"
+                      (ngModelChange)="applyWise($event)">
+                      <mat-option value="Degree">Bachelor</mat-option>
+                      <mat-option value="Masters">Master</mat-option>
+                      <mat-option value="Ph.D">PHD</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3" *ngIf=" country_name!=undefined || apply_for!=undefined ">
+                  <button nbButton status="sucess" (click)="clearFilter()">
+                    Clear Filter
+                  </button>
+                </div>
+              </div>
+            <div class="wrapper">
+              <h5><b>Filtered student count: </b></h5>{{studentdata?.length}}
+              <div class="Rtable Rtable--5cols Rtable--collapse">
+                <div class="Rtable-row Rtable-row--head">
+                  <div class="Rtable-cell date-cell column-heading">Sr.No.</div>
+                  <div class="Rtable-cell date-cell column-heading">Full Name</div>
+                  <div class="Rtable-cell topic-cell column-heading">Email Address</div>
+                  <div class="Rtable-cell date-cell column-heading">University Name</div>
+                  <div class="Rtable-cell date-cell column-heading">Country Name</div>
+                </div>
+                
+                <div class="Rtable-row is-striped" *ngFor="let student of studentdata | filter:{name:filterText,email:filterText,city:filterText,country: filterText,stu_name : filterText,user_type:filterText} : false | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index; ">
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Sr.No.</div>
+                    <div class="Rtable-cell--content date-content">{{ i + 1}}
+                      <span *ngIf = "student.admission_cancel == 'true'" style="color:red;"><b>Admission Cancel</b></span>
+                    </div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Full Name</div>
+                    <div class="Rtable-cell--content date-content">{{student?.name}} {{student?.surname}}</div>
+                  </div>
+                  <div class="Rtable-cell topic-cell">
+                    <div class="Rtable-cell--heading">Email Address</div>
+                    <div class="Rtable-cell--content title-content">{{student?.email}}</div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">University Name</div>
+                    <div class="Rtable-cell--content date-content">{{student?.university_name}}</div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Country Name</div>
+                    <div class="Rtable-cell--content date-content">{{student?.country}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </p-tabPanel>
+          <p-tabPanel header="Purpose wise Application Count">
+            <div class="wrapper"   [nbSpinner]="loading">
+              <div class="Rtable Rtable--3cols Rtable--collapse"  *ngIf="loading === false" >
+                <div class="Rtable-row Rtable-row--head">
+                  <div class="Rtable-cell date-cell column-heading">Sr.No</div>
+                  <div class="Rtable-cell date-cell column-heading">Purpose</div>
+                  <div class="Rtable-cell topic-cell column-heading">Within Count</div>
+                  <div class="Rtable-cell date-cell column-heading">Outside Count</div>
+                </div>
+                      
+                <div class="Rtable-row is-striped" *ngFor="let activity of activity_data | filter:{created_at: filterText, username:filterText, action:filterText, data:filterText }  | paginate: { itemsPerPage: 10, currentPage: p3 ,id:'3' }; let i=index;">
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Sr.No</div>
+                    <div class="Rtable-cell--content date-content">{{i + 1}}</div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Purpose</div>
+                    <div class="Rtable-cell--content date-content">{{activity?.purpose}}</div>
+                  </div>
+                  <div class="Rtable-cell topic-cell">
+                    <div class="Rtable-cell--content title-content">{{activity?.within}}</div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Action</div>
+                    <div class="Rtable-cell--content date-content">{{activity?.outside}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <pagination-controls (pageChange)="p3 = $event" id = '3'></pagination-controls>
+          </p-tabPanel>
+          <p-tabPanel header="College wise Application Count">
+            <div class="wrapper"   [nbSpinner]="loading">
+              <div class="Rtable Rtable--3cols Rtable--collapse"  *ngIf="loading === false">
+                <div class="Rtable-row Rtable-row--head">
+                  <div class="Rtable-cell date-cell column-heading">Sr.No</div>
+                  <div class="Rtable-cell date-cell column-heading">College</div>
+                  <div class="Rtable-cell topic-cell column-heading">Within Count</div>
+                  <div class="Rtable-cell date-cell column-heading">Outside Count</div>
+                </div>
+                      
+                <div class="Rtable-row is-striped" *ngFor="let activity of activity_data_college | filter:{created_at: filterText, username:filterText, action:filterText, data:filterText }  | paginate: { itemsPerPage: 10, currentPage: p4 ,id:'4', totalItems: dataLength?.totalLength}; let i=index;">
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Sr.No</div>
+                    <div class="Rtable-cell--content date-content">{{i + 1}}</div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">College</div>
+                    <div class="Rtable-cell--content date-content">{{activity?.college}}</div>
+                  </div>
+                  <div class="Rtable-cell topic-cell">
+                    <div class="Rtable-cell--content title-content">{{activity?.within}}</div>
+                  </div>
+                  <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Action</div>
+                    <div class="Rtable-cell--content date-content">{{activity?.outside}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <pagination-controls (pageChange)="pageChanged($event)" id = '4' ></pagination-controls>
+          </p-tabPanel>
+          <p-tabPanel header="Date wise Register Application Count">
+            <nb-card>
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label for="inputDate"> <span style="font-size: 14px; font-weight: bold;">Select Date : </span></label>
+                  </div>
+                  <div class="col-md-2">
+                    <input readonly id="inputDate"  nbInput placeholder="Choose date" [nbDatepicker]="picker"  [(ngModel)]="date" >
+                    <nb-datepicker #picker [(date)]="date" [max]="max" (dateChange)="getDateWiseCount()"></nb-datepicker>
+                  </div>
+                </div>
+                <br>
+                <nb-card>
+                  <nb-card-body style="align-items: center;">
+                    <table >
+                      <tr>
+                        <th></th>
+                        <th>Registration Count</th>
+                        <th>Application Count</th>
+                        <th>Applied For Count</th>
+                      </tr>
+                      <tr>
+                        <th>Indian</th>
+                        <th>{{withinCountObj?.registerCount}}</th>
+                        <th>{{withinCountObj?.appliedCount}}</th>
+                        <th>{{withinCountObj?.appliedForCount}}</th>
+                      </tr>
+                      <tr >
+                        <th>Outside</th>
+                        <th>{{outsideCountObj?.registerCount}}</th>
+                        <th>{{outsideCountObj?.appliedCount}}</th>
+                        <th>{{outsideCountObj?.appliedForCount}}</th>
+                      </tr>
+                    </table>
+                  </nb-card-body>
+                </nb-card>
+              </nb-card-body>
+            </nb-card>
+          </p-tabPanel> -->
+    </p-tabView>
+  </nb-card-body>
+</nb-card>

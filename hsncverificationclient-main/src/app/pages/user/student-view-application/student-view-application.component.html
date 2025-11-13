@@ -1,0 +1,89 @@
+<nb-card-body *ngIf="userApplication !=  undefined">
+    <nb-card-header>Your Applications</nb-card-header>
+    <div class="Rtable Rtable--5cols Rtable--collapse" *ngIf="userApplication?.length > 0">
+        <div class="Rtable-row Rtable-row--head">
+            <div class="Rtable-cell date-cell column-heading">Application ID</div>
+            <div class="Rtable-cell date-cell column-heading">Name</div>
+            <div class="Rtable-cell date-cell column-heading">Seat No.</div>
+            <div class="Rtable-cell date-cell column-heading">Passing Year</div>
+            <div class="Rtable-cell date-cell column-heading">Stream</div>
+            <div class="Rtable-cell date-cell column-heading">Branch</div>
+            <div class="Rtable-cell date-cell column-heading">Semester</div>
+            <div class="Rtable-cell date-cell column-heading">Document</div>
+            <div class="Rtable-cell date-cell column-heading">Status</div>
+            <div class="Rtable-cell date-cell column-heading">Action</div>
+            
+
+        </div>
+        <nb-list>
+            <nb-list-item class="Rtable-row is-striped"
+                *ngFor="let data of userApplication | paginate:{itemsPerPage: 5, currentPage:p2 , id:'2' };let i=index;">
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Application ID</div>
+                    <div class="Rtable-cell--content date-content">{{data.id}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Name</div>
+                    <div class="Rtable-cell--content date-content">{{data.first_name}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Seat No.</div>
+                    <div class="Rtable-cell--content date-content">{{data.seat_number}}
+                    </div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Passing Year</div>
+                    <div class="Rtable-cell--content date-content">{{data?.year_passing}}
+                    </div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Stream</div>
+                    <div class="Rtable-cell--content date-content">{{data?.stream}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Branch</div>
+                    <div class="Rtable-cell--content date-content">{{data?.branch}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Semester</div>
+                    <div class="Rtable-cell--content date-content">{{data?.semester}}</div>
+                </div>
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Document</div>
+                    <div class="Rtable-cell--content date-content">{{data?.document}}</div>
+                </div>
+                 <!-- <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Status</div>
+                    <div class="Rtable-cell--content date-content">{{data?.}}</div>
+                </div> -->
+                <div class="Rtable-cell date-cell">
+                    <div class="Rtable-cell--heading">Download</div>
+                    <div class="Rtable-cell--content date-content" ngDefaultControl>
+                        <nb-actions>
+                          <nb-action (click)="viewDocument(data?.choose_file)">
+                                   <div style="color: #00b887;"><i class="fa-solid fa-eye"></i>View</div>
+                                  </nb-action>
+                                  <nb-action (click)="downloadReceipt()" *ngIf="data?.payment_status == 1" style="padding-left: 10%;">
+                                   <div style="color: #72A0C1;"> <i class="fas fa-file-arrow-down"></i>Receipt Download</div>
+                                  </nb-action>
+                                  <nb-action nbPopover={{data?.errataMessage}} nbPopoverTrigger="hover" nbPopoverPlacement="bottom" (click)="editApplication(data.id)" *ngIf="data?.errata" style="padding-left: 10%;">
+                                        <div style="color: #C70039;"><i class="fa-solid fa-square-xmark"></i>Error</div>
+                                </nb-action>
+                                  <nb-action (click)="proceedforpayment(data?.id,data?.email,data?.first_name)" *ngIf="data?.payment_status == 0" style="padding-left: 10%;">
+                                    <div style="color: #FF00FF;"><i class="fa-solid fa-indian-rupee-sign"></i>Pay</div>
+                                  </nb-action>
+                        </nb-actions>
+                     
+                    </div>
+                </div>  
+                
+
+            </nb-list-item>
+        </nb-list>
+
+    </div>
+    <div>
+        <pagination-controls style="float:right;" (pageChange)="p2=$event" id='2'></pagination-controls>
+       </div>
+
+</nb-card-body>

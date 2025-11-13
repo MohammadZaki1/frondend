@@ -1,0 +1,23 @@
+/*!
+ * Copyright (c) Akveo 2019. All Rights Reserved.
+ * Licensed under the Single Application / Multi Application License.
+ * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
+ */
+:host {
+  .title {
+    margin-bottom: 2rem;
+  }
+  .gender {
+    width: 550px;
+    height: 50px;
+  }
+  .countrycode {
+    width: 560px;
+    height: 50px;
+   
+  }
+}
+
+:host ::ng-deep .iti {
+  width: 100%;
+}
