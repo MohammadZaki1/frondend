@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: plantkartdb
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/plantkartdb
+      - JWT_SECRET=devsecret
+      - STRIPE_SECRET_KEY=sk_test_replace
+      - CLIENT_BASE_URL=http://frontend:5173
+    ports:
+      - '4000:4000'
+    depends_on:
+      - postgres
+    command: ["sh","-c","npm run migrate && node src/index.js"]
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '5173:80'
+    environment:
+      - VITE_API_BASE=http://backend:4000
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
